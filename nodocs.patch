@@ -1,0 +1,39 @@
+--- open-zwave-master/cpp/build/Makefile~	2018-08-17 19:27:14.000000000 +0000
++++ open-zwave-master/cpp/build/Makefile	2018-08-17 19:30:10.518156815 +0000
+@@ -217,7 +217,7 @@
+ doc:
+ 		$(warning Documentation not being built)
+ else
+-doc: $(top_builddir)/Doxyfile
++doc: 
+ 	@echo "Creating Documentation at $(top_builddir)/docs/api/"
+ 	@mkdir -p $(top_builddir)/docs/api/
+ 	@cd $(top_builddir); $(DOXYGEN)
+--- open-zwave-master/cpp/build/Makefile~	2018-08-17 19:30:10.000000000 +0000
++++ open-zwave-master/cpp/build/Makefile	2018-08-17 19:32:00.086155289 +0000
+@@ -204,25 +204,6 @@
+ HAVE_DOT = -e 's|[@]HAVE_DOT@|YES|g' 
+ endif
+ 
+-$(top_builddir)/Doxyfile: $(top_srcdir)/docs/Doxyfile.in $(top_srcdir)/cpp/src/vers.cpp
+-	@mkdir -p $(top_builddir)/docs/api/
+-	@$(SED) \
+-		-e 's|[@]OUTPUT_DIR@|$(top_builddir)/docs/api/|g' \
+-		-e 's|[@]TOPSRC_DIR@|$(top_srcdir)|g' \
+-		$(HAVE_DOT) \
+-		-e 's|[@]VERSION@|$(VERSION).$(VERSION_REV)|g' \
+-		< "$<" > "$@"
+-
+-ifeq ($(DOXYGEN),)
+-doc:
+-		$(warning Documentation not being built)
+-else
+-doc: 
+-	@echo "Creating Documentation at $(top_builddir)/docs/api/"
+-	@mkdir -p $(top_builddir)/docs/api/
+-	@cd $(top_builddir); $(DOXYGEN)
+-endif
+-
+ install: $(LIBDIR)/$(SHARED_LIB_NAME) doc $(top_builddir)/libopenzwave.pc $(top_builddir)/ozw_config
+ 	@echo "Installing Shared Library"
+ 	@install -d $(DESTDIR)/$(instlibdir)/
