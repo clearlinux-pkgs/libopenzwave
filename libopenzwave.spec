@@ -4,16 +4,16 @@
 #
 Name     : libopenzwave
 Version  : 0.4.9
-Release  : 1
+Release  : 3
 URL      : https://raw.githubusercontent.com/OpenZWave/python-openzwave/master/archives/open-zwave-master-0.4.9.zip
 Source0  : https://raw.githubusercontent.com/OpenZWave/python-openzwave/master/archives/open-zwave-master-0.4.9.zip
 Summary  : Library to access Z-Wave interfaces
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-3.0 ISC LGPL-2.0+ LGPL-2.1+ LGPL-3.0
-Requires: libopenzwave-bin
-Requires: libopenzwave-config
-Requires: libopenzwave-lib
-Requires: libopenzwave-license
+Requires: libopenzwave-bin = %{version}-%{release}
+Requires: libopenzwave-data = %{version}-%{release}
+Requires: libopenzwave-lib = %{version}-%{release}
+Requires: libopenzwave-license = %{version}-%{release}
 BuildRequires : docbook-xml
 BuildRequires : doxygen
 BuildRequires : graphviz
@@ -53,27 +53,28 @@ protocol closed.
 %package bin
 Summary: bin components for the libopenzwave package.
 Group: Binaries
-Requires: libopenzwave-config
-Requires: libopenzwave-license
+Requires: libopenzwave-data = %{version}-%{release}
+Requires: libopenzwave-license = %{version}-%{release}
 
 %description bin
 bin components for the libopenzwave package.
 
 
-%package config
-Summary: config components for the libopenzwave package.
-Group: Default
+%package data
+Summary: data components for the libopenzwave package.
+Group: Data
 
-%description config
-config components for the libopenzwave package.
+%description data
+data components for the libopenzwave package.
 
 
 %package dev
 Summary: dev components for the libopenzwave package.
 Group: Development
-Requires: libopenzwave-lib
-Requires: libopenzwave-bin
-Provides: libopenzwave-devel
+Requires: libopenzwave-lib = %{version}-%{release}
+Requires: libopenzwave-bin = %{version}-%{release}
+Requires: libopenzwave-data = %{version}-%{release}
+Provides: libopenzwave-devel = %{version}-%{release}
 
 %description dev
 dev components for the libopenzwave package.
@@ -90,7 +91,8 @@ doc components for the libopenzwave package.
 %package lib
 Summary: lib components for the libopenzwave package.
 Group: Libraries
-Requires: libopenzwave-license
+Requires: libopenzwave-data = %{version}-%{release}
+Requires: libopenzwave-license = %{version}-%{release}
 
 %description lib
 lib components for the libopenzwave package.
@@ -114,21 +116,21 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1534534484
+export SOURCE_DATE_EPOCH=1539289689
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1534534484
+export SOURCE_DATE_EPOCH=1539289689
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/libopenzwave
-cp cpp/hidapi/LICENSE-bsd.txt %{buildroot}/usr/share/doc/libopenzwave/cpp_hidapi_LICENSE-bsd.txt
-cp cpp/hidapi/LICENSE-gpl3.txt %{buildroot}/usr/share/doc/libopenzwave/cpp_hidapi_LICENSE-gpl3.txt
-cp cpp/hidapi/LICENSE-orig.txt %{buildroot}/usr/share/doc/libopenzwave/cpp_hidapi_LICENSE-orig.txt
-cp cpp/hidapi/LICENSE.txt %{buildroot}/usr/share/doc/libopenzwave/cpp_hidapi_LICENSE.txt
-cp debian/copyright %{buildroot}/usr/share/doc/libopenzwave/debian_copyright
-cp license/gpl.txt %{buildroot}/usr/share/doc/libopenzwave/license_gpl.txt
-cp license/license.txt %{buildroot}/usr/share/doc/libopenzwave/license_license.txt
-%make_install PREFIX=/usr
+mkdir -p %{buildroot}/usr/share/package-licenses/libopenzwave
+cp cpp/hidapi/LICENSE-bsd.txt %{buildroot}/usr/share/package-licenses/libopenzwave/cpp_hidapi_LICENSE-bsd.txt
+cp cpp/hidapi/LICENSE-gpl3.txt %{buildroot}/usr/share/package-licenses/libopenzwave/cpp_hidapi_LICENSE-gpl3.txt
+cp cpp/hidapi/LICENSE-orig.txt %{buildroot}/usr/share/package-licenses/libopenzwave/cpp_hidapi_LICENSE-orig.txt
+cp cpp/hidapi/LICENSE.txt %{buildroot}/usr/share/package-licenses/libopenzwave/cpp_hidapi_LICENSE.txt
+cp debian/copyright %{buildroot}/usr/share/package-licenses/libopenzwave/debian_copyright
+cp license/gpl.txt %{buildroot}/usr/share/package-licenses/libopenzwave/license_gpl.txt
+cp license/license.txt %{buildroot}/usr/share/package-licenses/libopenzwave/license_license.txt
+%make_install PREFIX=/usr sysconfdir=/usr/share/defaults/openzwave
 
 %files
 %defattr(-,root,root,-)
@@ -138,1018 +140,1019 @@ cp license/license.txt %{buildroot}/usr/share/doc/libopenzwave/license_license.t
 /usr/bin/MinOZW
 /usr/bin/ozw_config
 
-%files config
+%files data
 %defattr(-,root,root,-)
-%config /usr/etc/openzwave/2gig/ct100.xml
-%config /usr/etc/openzwave/2gig/ct101.xml
-%config /usr/etc/openzwave/2gig/ct30.xml
-%config /usr/etc/openzwave/2gig/ct32.xml
-%config /usr/etc/openzwave/2gig/ct50e.xml
-%config /usr/etc/openzwave/2gig/ct80.xml
-%config /usr/etc/openzwave/BeNext/1poleswitch.xml
-%config /usr/etc/openzwave/BeNext/2poleswitch.xml
-%config /usr/etc/openzwave/BeNext/AlarmSound.xml
-%config /usr/etc/openzwave/BeNext/BuiltinDimmer.xml
-%config /usr/etc/openzwave/BeNext/DoorSensor.xml
-%config /usr/etc/openzwave/BeNext/EnergySwitch.xml
-%config /usr/etc/openzwave/BeNext/HeatingControl.xml
-%config /usr/etc/openzwave/BeNext/Molite.xml
-%config /usr/etc/openzwave/BeNext/P1dongle.xml
-%config /usr/etc/openzwave/BeNext/PanicButton.xml
-%config /usr/etc/openzwave/BeNext/PanicWatch.xml
-%config /usr/etc/openzwave/BeNext/PluginDimmer.xml
-%config /usr/etc/openzwave/BeNext/SceneController.xml
-%config /usr/etc/openzwave/BeNext/TagReader.xml
-%config /usr/etc/openzwave/BeNext/TagReader500.xml
-%config /usr/etc/openzwave/act/lfm20.xml
-%config /usr/etc/openzwave/act/zdm230.xml
-%config /usr/etc/openzwave/act/zdw103.xml
-%config /usr/etc/openzwave/act/zdw232.xml
-%config /usr/etc/openzwave/act/zir010.xml
-%config /usr/etc/openzwave/act/zrp110.xml
-%config /usr/etc/openzwave/act/zrw103.xml
-%config /usr/etc/openzwave/aeotec/dsa03202.xml
-%config /usr/etc/openzwave/aeotec/dsa22.xml
-%config /usr/etc/openzwave/aeotec/dsa38.xml
-%config /usr/etc/openzwave/aeotec/dsb04100.xml
-%config /usr/etc/openzwave/aeotec/dsb05.xml
-%config /usr/etc/openzwave/aeotec/dsb09104.xml
-%config /usr/etc/openzwave/aeotec/dsb28.xml
-%config /usr/etc/openzwave/aeotec/dsb29.xml
-%config /usr/etc/openzwave/aeotec/dsb45.xml
-%config /usr/etc/openzwave/aeotec/dsb54.xml
-%config /usr/etc/openzwave/aeotec/dsc06106.xml
-%config /usr/etc/openzwave/aeotec/dsc08101.xml
-%config /usr/etc/openzwave/aeotec/dsc10.xml
-%config /usr/etc/openzwave/aeotec/dsc11.xml
-%config /usr/etc/openzwave/aeotec/dsc12104.xml
-%config /usr/etc/openzwave/aeotec/dsc13104.xml
-%config /usr/etc/openzwave/aeotec/dsc14104.xml
-%config /usr/etc/openzwave/aeotec/dsc18103.xml
-%config /usr/etc/openzwave/aeotec/dsc19103.xml
-%config /usr/etc/openzwave/aeotec/dsc24.xml
-%config /usr/etc/openzwave/aeotec/dsc26103.xml
-%config /usr/etc/openzwave/aeotec/dsc27103.xml
-%config /usr/etc/openzwave/aeotec/dsc35103.xml
-%config /usr/etc/openzwave/aeotec/dsd37.xml
-%config /usr/etc/openzwave/aeotec/zw056.xml
-%config /usr/etc/openzwave/aeotec/zw062.xml
-%config /usr/etc/openzwave/aeotec/zw074.xml
-%config /usr/etc/openzwave/aeotec/zw075.xml
-%config /usr/etc/openzwave/aeotec/zw078.xml
-%config /usr/etc/openzwave/aeotec/zw080.xml
-%config /usr/etc/openzwave/aeotec/zw088.xml
-%config /usr/etc/openzwave/aeotec/zw089.xml
-%config /usr/etc/openzwave/aeotec/zw090.xml
-%config /usr/etc/openzwave/aeotec/zw095.xml
-%config /usr/etc/openzwave/aeotec/zw096.xml
-%config /usr/etc/openzwave/aeotec/zw097.xml
-%config /usr/etc/openzwave/aeotec/zw098.xml
-%config /usr/etc/openzwave/aeotec/zw099.xml
-%config /usr/etc/openzwave/aeotec/zw100.xml
-%config /usr/etc/openzwave/aeotec/zw111.xml
-%config /usr/etc/openzwave/aeotec/zw112.xml
-%config /usr/etc/openzwave/aeotec/zw116.xml
-%config /usr/etc/openzwave/aeotec/zw117.xml
-%config /usr/etc/openzwave/aeotec/zw120.xml
-%config /usr/etc/openzwave/aeotec/zw121.xml
-%config /usr/etc/openzwave/aeotec/zw122.xml
-%config /usr/etc/openzwave/aeotec/zw129.xml
-%config /usr/etc/openzwave/aeotec/zw130.xml
-%config /usr/etc/openzwave/aeotec/zw132.xml
-%config /usr/etc/openzwave/aeotec/zw139.xml
-%config /usr/etc/openzwave/aeotec/zw140.xml
-%config /usr/etc/openzwave/aeotec/zw141.xml
-%config /usr/etc/openzwave/aeotec/zwa001.xml
-%config /usr/etc/openzwave/aeotec/zwa002.xml
-%config /usr/etc/openzwave/aeotec/zwa003.xml
-%config /usr/etc/openzwave/aeotec/zwa004.xml
-%config /usr/etc/openzwave/aeotec/zwa005.xml
-%config /usr/etc/openzwave/assa_abloy/ConexisL1.xml
-%config /usr/etc/openzwave/assa_abloy/KeyfreeConnected-plus.xml
-%config /usr/etc/openzwave/assa_abloy/KeyfreeConnected.xml
-%config /usr/etc/openzwave/assa_abloy/PushButtonDeadbolt.xml
-%config /usr/etc/openzwave/assa_abloy/PushButtonLever.xml
-%config /usr/etc/openzwave/assa_abloy/TouchDeadbolt.xml
-%config /usr/etc/openzwave/assa_abloy/TouchLever.xml
-%config /usr/etc/openzwave/assa_abloy/nexTouch.xml
-%config /usr/etc/openzwave/august/asl-03.xml
-%config /usr/etc/openzwave/config/2gig/ct100.xml
-%config /usr/etc/openzwave/config/2gig/ct101.xml
-%config /usr/etc/openzwave/config/2gig/ct30.xml
-%config /usr/etc/openzwave/config/2gig/ct32.xml
-%config /usr/etc/openzwave/config/2gig/ct50e.xml
-%config /usr/etc/openzwave/config/2gig/ct80.xml
-%config /usr/etc/openzwave/config/BeNext/1poleswitch.xml
-%config /usr/etc/openzwave/config/BeNext/2poleswitch.xml
-%config /usr/etc/openzwave/config/BeNext/AlarmSound.xml
-%config /usr/etc/openzwave/config/BeNext/BuiltinDimmer.xml
-%config /usr/etc/openzwave/config/BeNext/DoorSensor.xml
-%config /usr/etc/openzwave/config/BeNext/EnergySwitch.xml
-%config /usr/etc/openzwave/config/BeNext/HeatingControl.xml
-%config /usr/etc/openzwave/config/BeNext/Molite.xml
-%config /usr/etc/openzwave/config/BeNext/P1dongle.xml
-%config /usr/etc/openzwave/config/BeNext/PanicButton.xml
-%config /usr/etc/openzwave/config/BeNext/PanicWatch.xml
-%config /usr/etc/openzwave/config/BeNext/PluginDimmer.xml
-%config /usr/etc/openzwave/config/BeNext/SceneController.xml
-%config /usr/etc/openzwave/config/BeNext/TagReader.xml
-%config /usr/etc/openzwave/config/BeNext/TagReader500.xml
-%config /usr/etc/openzwave/config/act/lfm20.xml
-%config /usr/etc/openzwave/config/act/zdm230.xml
-%config /usr/etc/openzwave/config/act/zdw103.xml
-%config /usr/etc/openzwave/config/act/zdw232.xml
-%config /usr/etc/openzwave/config/act/zir010.xml
-%config /usr/etc/openzwave/config/act/zrp110.xml
-%config /usr/etc/openzwave/config/act/zrw103.xml
-%config /usr/etc/openzwave/config/aeotec/dsa03202.xml
-%config /usr/etc/openzwave/config/aeotec/dsa22.xml
-%config /usr/etc/openzwave/config/aeotec/dsa38.xml
-%config /usr/etc/openzwave/config/aeotec/dsb04100.xml
-%config /usr/etc/openzwave/config/aeotec/dsb05.xml
-%config /usr/etc/openzwave/config/aeotec/dsb09104.xml
-%config /usr/etc/openzwave/config/aeotec/dsb28.xml
-%config /usr/etc/openzwave/config/aeotec/dsb29.xml
-%config /usr/etc/openzwave/config/aeotec/dsb45.xml
-%config /usr/etc/openzwave/config/aeotec/dsb54.xml
-%config /usr/etc/openzwave/config/aeotec/dsc06106.xml
-%config /usr/etc/openzwave/config/aeotec/dsc08101.xml
-%config /usr/etc/openzwave/config/aeotec/dsc10.xml
-%config /usr/etc/openzwave/config/aeotec/dsc11.xml
-%config /usr/etc/openzwave/config/aeotec/dsc12104.xml
-%config /usr/etc/openzwave/config/aeotec/dsc13104.xml
-%config /usr/etc/openzwave/config/aeotec/dsc14104.xml
-%config /usr/etc/openzwave/config/aeotec/dsc18103.xml
-%config /usr/etc/openzwave/config/aeotec/dsc19103.xml
-%config /usr/etc/openzwave/config/aeotec/dsc24.xml
-%config /usr/etc/openzwave/config/aeotec/dsc26103.xml
-%config /usr/etc/openzwave/config/aeotec/dsc27103.xml
-%config /usr/etc/openzwave/config/aeotec/dsc35103.xml
-%config /usr/etc/openzwave/config/aeotec/dsd37.xml
-%config /usr/etc/openzwave/config/aeotec/zw056.xml
-%config /usr/etc/openzwave/config/aeotec/zw062.xml
-%config /usr/etc/openzwave/config/aeotec/zw074.xml
-%config /usr/etc/openzwave/config/aeotec/zw075.xml
-%config /usr/etc/openzwave/config/aeotec/zw078.xml
-%config /usr/etc/openzwave/config/aeotec/zw080.xml
-%config /usr/etc/openzwave/config/aeotec/zw088.xml
-%config /usr/etc/openzwave/config/aeotec/zw089.xml
-%config /usr/etc/openzwave/config/aeotec/zw090.xml
-%config /usr/etc/openzwave/config/aeotec/zw095.xml
-%config /usr/etc/openzwave/config/aeotec/zw096.xml
-%config /usr/etc/openzwave/config/aeotec/zw097.xml
-%config /usr/etc/openzwave/config/aeotec/zw098.xml
-%config /usr/etc/openzwave/config/aeotec/zw099.xml
-%config /usr/etc/openzwave/config/aeotec/zw100.xml
-%config /usr/etc/openzwave/config/aeotec/zw111.xml
-%config /usr/etc/openzwave/config/aeotec/zw112.xml
-%config /usr/etc/openzwave/config/aeotec/zw116.xml
-%config /usr/etc/openzwave/config/aeotec/zw117.xml
-%config /usr/etc/openzwave/config/aeotec/zw120.xml
-%config /usr/etc/openzwave/config/aeotec/zw121.xml
-%config /usr/etc/openzwave/config/aeotec/zw122.xml
-%config /usr/etc/openzwave/config/aeotec/zw129.xml
-%config /usr/etc/openzwave/config/aeotec/zw130.xml
-%config /usr/etc/openzwave/config/aeotec/zw132.xml
-%config /usr/etc/openzwave/config/aeotec/zw139.xml
-%config /usr/etc/openzwave/config/aeotec/zw140.xml
-%config /usr/etc/openzwave/config/assa_abloy/ConexisL1.xml
-%config /usr/etc/openzwave/config/assa_abloy/KeyfreeConnected-plus.xml
-%config /usr/etc/openzwave/config/assa_abloy/KeyfreeConnected.xml
-%config /usr/etc/openzwave/config/assa_abloy/PushButtonDeadbolt.xml
-%config /usr/etc/openzwave/config/assa_abloy/PushButtonLever.xml
-%config /usr/etc/openzwave/config/assa_abloy/TouchDeadbolt.xml
-%config /usr/etc/openzwave/config/assa_abloy/TouchLever.xml
-%config /usr/etc/openzwave/config/assa_abloy/nexTouch.xml
-%config /usr/etc/openzwave/config/cooper/RF9501.xml
-%config /usr/etc/openzwave/config/cooper/RF9505-T.xml
-%config /usr/etc/openzwave/config/cooper/RF9517.xml
-%config /usr/etc/openzwave/config/cooper/RF9540-N.xml
-%config /usr/etc/openzwave/config/cooper/RF9542-Z.xml
-%config /usr/etc/openzwave/config/cooper/RFWC5.xml
-%config /usr/etc/openzwave/config/danfoss/living.xml
-%config /usr/etc/openzwave/config/danfoss/rsroom.xml
-%config /usr/etc/openzwave/config/danfoss/z.xml
-%config /usr/etc/openzwave/config/device_classes.xml
-%config /usr/etc/openzwave/config/device_classes.xsd
-%config /usr/etc/openzwave/config/device_configuration.xsd
-%config /usr/etc/openzwave/config/devolo/connectz.xml
-%config /usr/etc/openzwave/config/devolo/mt02648.xml
-%config /usr/etc/openzwave/config/devolo/mt02755.xml
-%config /usr/etc/openzwave/config/devolo/mt02758.xml
-%config /usr/etc/openzwave/config/devolo/mt02792.xml
-%config /usr/etc/openzwave/config/devolo/mt2646.xml
-%config /usr/etc/openzwave/config/devolo/mt2647.xml
-%config /usr/etc/openzwave/config/devolo/mt2652.xml
-%config /usr/etc/openzwave/config/devolo/mt2653.xml
-%config /usr/etc/openzwave/config/devolo/mt2756.xml
-%config /usr/etc/openzwave/config/devolo/rs014G0159.xml
-%config /usr/etc/openzwave/config/dlink/dch-z110.xml
-%config /usr/etc/openzwave/config/dlink/dch-z120.xml
-%config /usr/etc/openzwave/config/dlink/dch-z510.xml
-%config /usr/etc/openzwave/config/dome/0002.xml
-%config /usr/etc/openzwave/config/dome/0083.xml
-%config /usr/etc/openzwave/config/dome/0085.xml
-%config /usr/etc/openzwave/config/dome/0086.xml
-%config /usr/etc/openzwave/config/dome/0087.xml
-%config /usr/etc/openzwave/config/dome/0088.xml
-%config /usr/etc/openzwave/config/dome/0101.xml
-%config /usr/etc/openzwave/config/dome/0201.xml
-%config /usr/etc/openzwave/config/domitech/zb22uk.xml
-%config /usr/etc/openzwave/config/domitech/ze27eu.xml
-%config /usr/etc/openzwave/config/domux/DX1CA-Z.xml
-%config /usr/etc/openzwave/config/domux/DX1CG-Z.xml
-%config /usr/etc/openzwave/config/domux/DX1DS-Z.xml
-%config /usr/etc/openzwave/config/domux/DX1HT-Z.xml
-%config /usr/etc/openzwave/config/domux/DX1MS-Z.xml
-%config /usr/etc/openzwave/config/domux/DX1SA-Z.xml
-%config /usr/etc/openzwave/config/domux/DX1WL-Z.xml
-%config /usr/etc/openzwave/config/domux/DX2SK-Z.xml
-%config /usr/etc/openzwave/config/dragontech/wd-100.xml
-%config /usr/etc/openzwave/config/duwi/05458.xml
-%config /usr/etc/openzwave/config/duwi/ZWES1000.xml
-%config /usr/etc/openzwave/config/duwi/ZWESJ300.xml
-%config /usr/etc/openzwave/config/duwi/zwfb.xml
-%config /usr/etc/openzwave/config/ecolink/doorwindow.xml
-%config /usr/etc/openzwave/config/ecolink/firefighter.xml
-%config /usr/etc/openzwave/config/ecolink/motion.xml
-%config /usr/etc/openzwave/config/ecolink/sensor.xml
-%config /usr/etc/openzwave/config/electronicsolutions/dbmz.xml
-%config /usr/etc/openzwave/config/enerwave/zw15rmplus.xml
-%config /usr/etc/openzwave/config/enerwave/zw15s.xml
-%config /usr/etc/openzwave/config/enerwave/zw20r.xml
-%config /usr/etc/openzwave/config/enerwave/zw20rm.xml
-%config /usr/etc/openzwave/config/enerwave/zw500d.xml
-%config /usr/etc/openzwave/config/enerwave/zwn-bpc.xml
-%config /usr/etc/openzwave/config/enerwave/zwn-sc7.xml
-%config /usr/etc/openzwave/config/enerwave/zwnrsm1plus.xml
-%config /usr/etc/openzwave/config/enerwave/zwnrsm2plus.xml
-%config /usr/etc/openzwave/config/eurotronic/eur_cometz.xml
-%config /usr/etc/openzwave/config/eurotronic/eur_stellaz.xml
-%config /usr/etc/openzwave/config/everspring/ad146.xml
-%config /usr/etc/openzwave/config/everspring/ad147.xml
-%config /usr/etc/openzwave/config/everspring/an145.xml
-%config /usr/etc/openzwave/config/everspring/an158.xml
-%config /usr/etc/openzwave/config/everspring/an179.xml
-%config /usr/etc/openzwave/config/everspring/an180.xml
-%config /usr/etc/openzwave/config/everspring/an181.xml
-%config /usr/etc/openzwave/config/everspring/hac01.xml
-%config /usr/etc/openzwave/config/everspring/hsp02.xml
-%config /usr/etc/openzwave/config/everspring/se812.xml
-%config /usr/etc/openzwave/config/everspring/sf812.xml
-%config /usr/etc/openzwave/config/everspring/sm103.xml
-%config /usr/etc/openzwave/config/everspring/sp103.xml
-%config /usr/etc/openzwave/config/everspring/sp814.xml
-%config /usr/etc/openzwave/config/everspring/sp816.xml
-%config /usr/etc/openzwave/config/everspring/st812.xml
-%config /usr/etc/openzwave/config/everspring/st814.xml
-%config /usr/etc/openzwave/config/everspring/st815.xml
-%config /usr/etc/openzwave/config/everspring/tse03.xml
-%config /usr/etc/openzwave/config/everspringct/hsm02.xml
-%config /usr/etc/openzwave/config/evolve/lrm-as.xml
-%config /usr/etc/openzwave/config/evolve/lsm-15.xml
-%config /usr/etc/openzwave/config/evolve/ltm-5.xml
-%config /usr/etc/openzwave/config/fakro/zwp10.xml
-%config /usr/etc/openzwave/config/fakro/zwrs.xml
-%config /usr/etc/openzwave/config/fakro/zws12.xml
-%config /usr/etc/openzwave/config/fakro/zws230.xml
-%config /usr/etc/openzwave/config/fibaro/fgbs001.xml
-%config /usr/etc/openzwave/config/fibaro/fgcd001.xml
-%config /usr/etc/openzwave/config/fibaro/fgd211.xml
-%config /usr/etc/openzwave/config/fibaro/fgd212.xml
-%config /usr/etc/openzwave/config/fibaro/fgdw2.xml
-%config /usr/etc/openzwave/config/fibaro/fgfs101.xml
-%config /usr/etc/openzwave/config/fibaro/fgfs101zw5.xml
-%config /usr/etc/openzwave/config/fibaro/fggc001.xml
-%config /usr/etc/openzwave/config/fibaro/fgk001.xml
-%config /usr/etc/openzwave/config/fibaro/fgk10x.xml
-%config /usr/etc/openzwave/config/fibaro/fgkf601.xml
-%config /usr/etc/openzwave/config/fibaro/fgms.xml
-%config /usr/etc/openzwave/config/fibaro/fgmszw5.xml
-%config /usr/etc/openzwave/config/fibaro/fgpb101.xml
-%config /usr/etc/openzwave/config/fibaro/fgr221.xml
-%config /usr/etc/openzwave/config/fibaro/fgrgbwm441.xml
-%config /usr/etc/openzwave/config/fibaro/fgrm222.xml
-%config /usr/etc/openzwave/config/fibaro/fgs211.xml
-%config /usr/etc/openzwave/config/fibaro/fgs212.xml
-%config /usr/etc/openzwave/config/fibaro/fgs213.xml
-%config /usr/etc/openzwave/config/fibaro/fgs221.xml
-%config /usr/etc/openzwave/config/fibaro/fgs222.xml
-%config /usr/etc/openzwave/config/fibaro/fgs223.xml
-%config /usr/etc/openzwave/config/fibaro/fgsd002.xml
-%config /usr/etc/openzwave/config/fibaro/fgss101.xml
-%config /usr/etc/openzwave/config/fibaro/fgt001.xml
-%config /usr/etc/openzwave/config/fibaro/fgwpe.xml
-%config /usr/etc/openzwave/config/fibaro/fgwpfzw5.xml
-%config /usr/etc/openzwave/config/firstalert/zcombo.xml
-%config /usr/etc/openzwave/config/forest/fs2z5232000002.xml
-%config /usr/etc/openzwave/config/fortrezz/fmi.xml
-%config /usr/etc/openzwave/config/fortrezz/mimo2plus.xml
-%config /usr/etc/openzwave/config/fortrezz/mimolite.xml
-%config /usr/etc/openzwave/config/fortrezz/ssa2.xml
-%config /usr/etc/openzwave/config/fortrezz/ssa3.xml
-%config /usr/etc/openzwave/config/fortrezz/wv01.xml
-%config /usr/etc/openzwave/config/fortrezz/wwa02.xml
-%config /usr/etc/openzwave/config/frostdale/fdn2nxx.xml
-%config /usr/etc/openzwave/config/ge/12719-plugin-switch.xml
-%config /usr/etc/openzwave/config/ge/12724-dimmer.xml
-%config /usr/etc/openzwave/config/ge/14282-plugin-switch.xml
-%config /usr/etc/openzwave/config/ge/14288-outlet.xml
-%config /usr/etc/openzwave/config/ge/14291-switch.xml
-%config /usr/etc/openzwave/config/ge/14292-toggle-switch.xml
-%config /usr/etc/openzwave/config/ge/14294-dimmer.xml
-%config /usr/etc/openzwave/config/ge/14295-dimmer-toggle.xml
-%config /usr/etc/openzwave/config/ge/26931-motion-switch.xml
-%config /usr/etc/openzwave/config/ge/26933-motion-dimmer.xml
-%config /usr/etc/openzwave/config/ge/dimmer.xml
-%config /usr/etc/openzwave/config/ge/dimmer_module.xml
-%config /usr/etc/openzwave/config/ge/hinge-pin.xml
-%config /usr/etc/openzwave/config/ge/receptacle.xml
-%config /usr/etc/openzwave/config/ge/relay.xml
-%config /usr/etc/openzwave/config/ge/ze26i.xml
-%config /usr/etc/openzwave/config/ge/zw4001-switch.xml
-%config /usr/etc/openzwave/config/ge/zw6302.xml
-%config /usr/etc/openzwave/config/gocontrol/GC-TBZ48L.xml
-%config /usr/etc/openzwave/config/gr/gr105.xml
-%config /usr/etc/openzwave/config/gr/gr105n.xml
-%config /usr/etc/openzwave/config/greenwave/powernode1.xml
-%config /usr/etc/openzwave/config/greenwave/powernode6.xml
-%config /usr/etc/openzwave/config/hank/hkzw-dws01.xml
-%config /usr/etc/openzwave/config/hank/hkzw-ms01.xml
-%config /usr/etc/openzwave/config/hank/hkzw-rgb01.xml
-%config /usr/etc/openzwave/config/hank/hkzw-so01-smartplug.xml
-%config /usr/etc/openzwave/config/hank/hkzw-so03.xml
-%config /usr/etc/openzwave/config/hank/hkzw-so05-smartplug.xml
-%config /usr/etc/openzwave/config/hank/scenecontroller1.xml
-%config /usr/etc/openzwave/config/hank/scenecontroller4.xml
-%config /usr/etc/openzwave/config/heiman/HS1CA-Z.xml
-%config /usr/etc/openzwave/config/heiman/HS1CG-Z.xml
-%config /usr/etc/openzwave/config/heiman/HS1DS-Z.xml
-%config /usr/etc/openzwave/config/heiman/HS1HT-Z.xml
-%config /usr/etc/openzwave/config/heiman/HS1MS-Z.xml
-%config /usr/etc/openzwave/config/heiman/HS1SA-Z.xml
-%config /usr/etc/openzwave/config/heiman/HS1WL-Z.xml
-%config /usr/etc/openzwave/config/heiman/HS2SK-Z.xml
-%config /usr/etc/openzwave/config/homeseer/ezmotionplus.xml
-%config /usr/etc/openzwave/config/homeseer/hs-wd100plus.xml
-%config /usr/etc/openzwave/config/homeseer/hs-wd200plus.xml
-%config /usr/etc/openzwave/config/homeseer/hs-ws100plus.xml
-%config /usr/etc/openzwave/config/homeseer/hsm100.xml
-%config /usr/etc/openzwave/config/homeseer/hsm200.xml
-%config /usr/etc/openzwave/config/homeseer/ztroller.xml
-%config /usr/etc/openzwave/config/honeywell/lynx-touch-l5100.xml
-%config /usr/etc/openzwave/config/honeywell/th8320zw1000.xml
-%config /usr/etc/openzwave/config/horstmann/asrzw.xml
-%config /usr/etc/openzwave/config/horstmann/hrt4zw.xml
-%config /usr/etc/openzwave/config/horstmann/scsc17.xml
-%config /usr/etc/openzwave/config/horstmann/ses302.xml
-%config /usr/etc/openzwave/config/horstmann/ses303.xml
-%config /usr/etc/openzwave/config/horstmann/sir321.xml
-%config /usr/etc/openzwave/config/horstmann/srt323.xml
-%config /usr/etc/openzwave/config/horstmann/ssr302.xml
-%config /usr/etc/openzwave/config/idlock/idlock101.xml
-%config /usr/etc/openzwave/config/ingersoll/dwzwave1.xml
-%config /usr/etc/openzwave/config/inovelli/simple_module.xml
-%config /usr/etc/openzwave/config/intermatic/ca8900.xml
-%config /usr/etc/openzwave/config/iris/rangeextender.xml
-%config /usr/etc/openzwave/config/kaipule/im20.xml
-%config /usr/etc/openzwave/config/kaipule/ix32.xml
-%config /usr/etc/openzwave/config/kwikset/smartcode.xml
-%config /usr/etc/openzwave/config/leviton/dz15s.xml
-%config /usr/etc/openzwave/config/leviton/dz6hd.xml
-%config /usr/etc/openzwave/config/leviton/dzpd3.xml
-%config /usr/etc/openzwave/config/leviton/rzi10.xml
-%config /usr/etc/openzwave/config/leviton/vrcpg.xml
-%config /usr/etc/openzwave/config/leviton/vrf01.xml
-%config /usr/etc/openzwave/config/leviton/vri06.xml
-%config /usr/etc/openzwave/config/leviton/vri10.xml
-%config /usr/etc/openzwave/config/linear/GC-TBZ48.xml
-%config /usr/etc/openzwave/config/linear/LB60Z-1.xml
-%config /usr/etc/openzwave/config/linear/PD300Z-2.xml
-%config /usr/etc/openzwave/config/linear/WA00Z-1.xml
-%config /usr/etc/openzwave/config/linear/WA105DBZ-1.xml
-%config /usr/etc/openzwave/config/linear/WADWAZ-1.xml
-%config /usr/etc/openzwave/config/linear/WAPIRZ-1.xml
-%config /usr/etc/openzwave/config/linear/WD500Z-1.xml
-%config /usr/etc/openzwave/config/linear/WD500Z5-1.xml
-%config /usr/etc/openzwave/config/linear/WS15Z-1.xml
-%config /usr/etc/openzwave/config/linear/WT00Z-1.xml
-%config /usr/etc/openzwave/config/logicsoft/ZHC5002.xml
-%config /usr/etc/openzwave/config/logicsoft/ZHC5010.xml
-%config /usr/etc/openzwave/config/manufacturer_specific.xml
-%config /usr/etc/openzwave/config/manufacturer_specific.xsd
-%config /usr/etc/openzwave/config/mcohome/mh8fceu.xml
-%config /usr/etc/openzwave/config/mcohome/mh9co2.xml
-%config /usr/etc/openzwave/config/mcohome/mhp210.xml
-%config /usr/etc/openzwave/config/mcohome/mhs311.xml
-%config /usr/etc/openzwave/config/mcohome/mhs312.xml
-%config /usr/etc/openzwave/config/mcohome/mhs314.xml
-%config /usr/etc/openzwave/config/mcohome/mhs411.xml
-%config /usr/etc/openzwave/config/mcohome/mhs412.xml
-%config /usr/etc/openzwave/config/mcohome/mhs513.xml
-%config /usr/etc/openzwave/config/merten/507801.xml
-%config /usr/etc/openzwave/config/merten/50x5xx.xml
-%config /usr/etc/openzwave/config/nexia/db100z.xml
-%config /usr/etc/openzwave/config/nodon/asp3100SmartPlug.xml
-%config /usr/etc/openzwave/config/nodon/crc3100OctanRemote.xml
-%config /usr/etc/openzwave/config/nodon/crc360xSofremote.xml
-%config /usr/etc/openzwave/config/nodon/cws3101wallswitch.xml
-%config /usr/etc/openzwave/config/nodon/msp31xxMicroSmartPlug.xml
-%config /usr/etc/openzwave/config/northq/nq9021.xml
-%config /usr/etc/openzwave/config/northq/nq9121.xml
-%config /usr/etc/openzwave/config/northq/nq92021.xml
-%config /usr/etc/openzwave/config/oomi/ft100.xml
-%config /usr/etc/openzwave/config/oomi/ft111.xml
-%config /usr/etc/openzwave/config/options.xml
-%config /usr/etc/openzwave/config/options.xsd
-%config /usr/etc/openzwave/config/philio/pan03.xml
-%config /usr/etc/openzwave/config/philio/pan04.xml
-%config /usr/etc/openzwave/config/philio/pan06.xml
-%config /usr/etc/openzwave/config/philio/pan07.xml
-%config /usr/etc/openzwave/config/philio/pan08.xml
-%config /usr/etc/openzwave/config/philio/pan11.xml
-%config /usr/etc/openzwave/config/philio/pan16.xml
-%config /usr/etc/openzwave/config/philio/phpab01.xml
-%config /usr/etc/openzwave/config/philio/phpat02.xml
-%config /usr/etc/openzwave/config/philio/phpsg01.xml
-%config /usr/etc/openzwave/config/philio/pse02.xml
-%config /usr/etc/openzwave/config/philio/psm02.xml
-%config /usr/etc/openzwave/config/philio/psp05.xml
-%config /usr/etc/openzwave/config/philio/psr04.xml
-%config /usr/etc/openzwave/config/philio/pst02-1c.xml
-%config /usr/etc/openzwave/config/philio/pst02-b.xml
-%config /usr/etc/openzwave/config/philio/pst02.xml
-%config /usr/etc/openzwave/config/polycontrol/doorlock.xml
-%config /usr/etc/openzwave/config/polycontrol/doorlockv3.xml
-%config /usr/etc/openzwave/config/polycontrol/keypad.xml
-%config /usr/etc/openzwave/config/polycontrol/polylock.xml
-%config /usr/etc/openzwave/config/popp/004407.xml
-%config /usr/etc/openzwave/config/popp/009105.xml
-%config /usr/etc/openzwave/config/popp/009303.xml
-%config /usr/etc/openzwave/config/popp/009402.xml
-%config /usr/etc/openzwave/config/popp/012501.xml
-%config /usr/etc/openzwave/config/popp/123580.xml
-%config /usr/etc/openzwave/config/popp/123601.xml
-%config /usr/etc/openzwave/config/popp/123658.xml
-%config /usr/etc/openzwave/config/popp/700168.xml
-%config /usr/etc/openzwave/config/popp/smoke-detector.xml
-%config /usr/etc/openzwave/config/popp/solar-siren.xml
-%config /usr/etc/openzwave/config/popp/zweather.xml
-%config /usr/etc/openzwave/config/qees/reto-dimmer-plus.xml
-%config /usr/etc/openzwave/config/qees/reto-plugin-switch.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHAA2.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHADx.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHBA2.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHBDx.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHCA2.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHCDx.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHDA2.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHDDx.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHIA2.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHIDxS1.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHIDxS2.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHJA2.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHJD1.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHKDx.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHLAx.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHLDx.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHNDx.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHODx.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHSDx.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHTDx.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHTDxS3.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHUD1.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHVDx.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHWD1.xml
-%config /usr/etc/openzwave/config/qubino/ZMNHZDx.xml
-%config /usr/etc/openzwave/config/rcs/em52-zw.xml
-%config /usr/etc/openzwave/config/rcs/pm12-zw.xml
-%config /usr/etc/openzwave/config/rcs/therm0005.xml
-%config /usr/etc/openzwave/config/rcs/therm0007.xml
-%config /usr/etc/openzwave/config/rcs/therm0009.xml
-%config /usr/etc/openzwave/config/remotec/zfm-80.xml
-%config /usr/etc/openzwave/config/remotec/zrc-90.xml
-%config /usr/etc/openzwave/config/remotec/zts-110.xml
-%config /usr/etc/openzwave/config/remotec/zts-500.xml
-%config /usr/etc/openzwave/config/remotec/zurc.xml
-%config /usr/etc/openzwave/config/remotec/zxt-120.xml
-%config /usr/etc/openzwave/config/schlage/BE468.xml
-%config /usr/etc/openzwave/config/schlage/BE469.xml
-%config /usr/etc/openzwave/config/schlagelink/itemp.xml
-%config /usr/etc/openzwave/config/schlagelink/minikeypad.xml
-%config /usr/etc/openzwave/config/sensative/strips.xml
-%config /usr/etc/openzwave/config/shenzen_neo/ls01ch.xml
-%config /usr/etc/openzwave/config/shenzen_neo/ls02ch.xml
-%config /usr/etc/openzwave/config/shenzen_neo/nas-ab01z.xml
-%config /usr/etc/openzwave/config/shenzen_neo/nas-ds01z.xml
-%config /usr/etc/openzwave/config/shenzen_neo/nas-pd01z.xml
-%config /usr/etc/openzwave/config/shenzen_neo/nas-rc01z.xml
-%config /usr/etc/openzwave/config/shenzen_neo/nas-wr01z.xml
-%config /usr/etc/openzwave/config/shenzen_neo/nas-ws02z.xml
-%config /usr/etc/openzwave/config/steinel/is140-2.xml
-%config /usr/etc/openzwave/config/stelpro/stzw402.xml
-%config /usr/etc/openzwave/config/swiid/swiidinter.xml
-%config /usr/etc/openzwave/config/swiid/swiidplug.xml
-%config /usr/etc/openzwave/config/telldus/tzdw100.xml
-%config /usr/etc/openzwave/config/telldus/tzwp100.xml
-%config /usr/etc/openzwave/config/thermofloor/heatit021.xml
-%config /usr/etc/openzwave/config/trane/TZEMT400AB32MAA.xml
-%config /usr/etc/openzwave/config/trane/TZEMT400BB32MAA.xml
-%config /usr/etc/openzwave/config/trane/TZEMT524AA21MA.xml
-%config /usr/etc/openzwave/config/tronika/zsc01d.xml
-%config /usr/etc/openzwave/config/vision/zd2102.xml
-%config /usr/etc/openzwave/config/vision/zd2105us5.xml
-%config /usr/etc/openzwave/config/vision/zd2201.xml
-%config /usr/etc/openzwave/config/vision/zd2301.xml
-%config /usr/etc/openzwave/config/vision/zf5201.xml
-%config /usr/etc/openzwave/config/vision/zg8101.xml
-%config /usr/etc/openzwave/config/vision/zl7261.xml
-%config /usr/etc/openzwave/config/vision/zl7431.xml
-%config /usr/etc/openzwave/config/vision/zm1601eu.xml
-%config /usr/etc/openzwave/config/vision/zm1601eu5.xml
-%config /usr/etc/openzwave/config/vision/zm1602eu.xml
-%config /usr/etc/openzwave/config/vision/zm1602eu5.xml
-%config /usr/etc/openzwave/config/vision/zp3102.xml
-%config /usr/etc/openzwave/config/vision/zp3111.xml
-%config /usr/etc/openzwave/config/vision/zs5101eu.xml
-%config /usr/etc/openzwave/config/vitrum/vitrumBS.xml
-%config /usr/etc/openzwave/config/waynedalton/WDTC-20.xml
-%config /usr/etc/openzwave/config/wenzhou/sm103.xml
-%config /usr/etc/openzwave/config/wenzhou/tsp01.xml
-%config /usr/etc/openzwave/config/wenzhou/tz55.xml
-%config /usr/etc/openzwave/config/wenzhou/tz56.xml
-%config /usr/etc/openzwave/config/wenzhou/tz65d.xml
-%config /usr/etc/openzwave/config/wenzhou/tz66d.xml
-%config /usr/etc/openzwave/config/wenzhou/tz67.xml
-%config /usr/etc/openzwave/config/wenzhou/tz68.xml
-%config /usr/etc/openzwave/config/wenzhou/tz69.xml
-%config /usr/etc/openzwave/config/wenzhou/tz79.xml
-%config /usr/etc/openzwave/config/wenzhou/tz88.xml
-%config /usr/etc/openzwave/config/widom/UBS104.xml
-%config /usr/etc/openzwave/config/widom/UME304C_S.xml
-%config /usr/etc/openzwave/config/widom/WDS.xml
-%config /usr/etc/openzwave/config/zipato/MiniKeypad.xml
-%config /usr/etc/openzwave/config/zipato/RGBBulb.xml
-%config /usr/etc/openzwave/config/zipato/RGBBulb2.xml
-%config /usr/etc/openzwave/config/zipato/vszd2102.xml
-%config /usr/etc/openzwave/config/zipato/zp3102.xml
-%config /usr/etc/openzwave/config/zooz/zen06.xml
-%config /usr/etc/openzwave/config/zooz/zen07.xml
-%config /usr/etc/openzwave/config/zooz/zen15.xml
-%config /usr/etc/openzwave/config/zooz/zen20.xml
-%config /usr/etc/openzwave/config/zooz/zen21.xml
-%config /usr/etc/openzwave/config/zooz/zen22.xml
-%config /usr/etc/openzwave/config/zooz/zen22v2.xml
-%config /usr/etc/openzwave/config/zooz/zen23.xml
-%config /usr/etc/openzwave/config/zooz/zen24.xml
-%config /usr/etc/openzwave/config/zooz/zse08.xml
-%config /usr/etc/openzwave/config/zooz/zse09.xml
-%config /usr/etc/openzwave/config/zooz/zse30.xml
-%config /usr/etc/openzwave/config/zooz/zse33.xml
-%config /usr/etc/openzwave/config/zooz/zse40.xml
-%config /usr/etc/openzwave/config/zwave.me/ZME_05431.xml
-%config /usr/etc/openzwave/config/zwave.me/ZME_05461.xml
-%config /usr/etc/openzwave/config/zwave.me/ZME_06433.xml
-%config /usr/etc/openzwave/config/zwave.me/ZME_06436.xml
-%config /usr/etc/openzwave/config/zwave.me/ZME_064381.xml
-%config /usr/etc/openzwave/config/zwave.me/ZME_064435.xml
-%config /usr/etc/openzwave/config/zwave.me/ZME_KFOB-S.xml
-%config /usr/etc/openzwave/config/zwave.me/ZME_RC2.xml
-%config /usr/etc/openzwave/config/zwave.me/ZME_WALLC-S.xml
-%config /usr/etc/openzwave/config/zwave.me/ZME_WCD2.xml
-%config /usr/etc/openzwave/config/zwave.me/ZUno.xml
-%config /usr/etc/openzwave/config/zwave.me/iTemp.xml
-%config /usr/etc/openzwave/config/zwave.me/kfob.xml
-%config /usr/etc/openzwave/config/zwave.me/popp_kfob-c.xml
-%config /usr/etc/openzwave/config/zwave.me/zweather.xml
-%config /usr/etc/openzwave/config/zwcfg.xsd
-%config /usr/etc/openzwave/config/zwp/WD-100.xml
-%config /usr/etc/openzwave/config/zwscene.xsd
-%config /usr/etc/openzwave/cooper/RF9501.xml
-%config /usr/etc/openzwave/cooper/RF9505-T.xml
-%config /usr/etc/openzwave/cooper/RF9517.xml
-%config /usr/etc/openzwave/cooper/RF9540-N.xml
-%config /usr/etc/openzwave/cooper/RF9542-Z.xml
-%config /usr/etc/openzwave/cooper/RFWC5.xml
-%config /usr/etc/openzwave/danfoss/living.xml
-%config /usr/etc/openzwave/danfoss/rsroom.xml
-%config /usr/etc/openzwave/danfoss/z.xml
-%config /usr/etc/openzwave/device_classes.xml
-%config /usr/etc/openzwave/device_classes.xsd
-%config /usr/etc/openzwave/device_configuration.xsd
-%config /usr/etc/openzwave/devolo/connectz.xml
-%config /usr/etc/openzwave/devolo/mt02648.xml
-%config /usr/etc/openzwave/devolo/mt02755.xml
-%config /usr/etc/openzwave/devolo/mt02758.xml
-%config /usr/etc/openzwave/devolo/mt02792.xml
-%config /usr/etc/openzwave/devolo/mt2646.xml
-%config /usr/etc/openzwave/devolo/mt2647.xml
-%config /usr/etc/openzwave/devolo/mt2651.xml
-%config /usr/etc/openzwave/devolo/mt2652.xml
-%config /usr/etc/openzwave/devolo/mt2653.xml
-%config /usr/etc/openzwave/devolo/mt2756.xml
-%config /usr/etc/openzwave/devolo/rs014G0159.xml
-%config /usr/etc/openzwave/dlink/dch-z110.xml
-%config /usr/etc/openzwave/dlink/dch-z120.xml
-%config /usr/etc/openzwave/dlink/dch-z510.xml
-%config /usr/etc/openzwave/dome/0002.xml
-%config /usr/etc/openzwave/dome/0083.xml
-%config /usr/etc/openzwave/dome/0085.xml
-%config /usr/etc/openzwave/dome/0086.xml
-%config /usr/etc/openzwave/dome/0087.xml
-%config /usr/etc/openzwave/dome/0088.xml
-%config /usr/etc/openzwave/dome/0101.xml
-%config /usr/etc/openzwave/dome/0201.xml
-%config /usr/etc/openzwave/domitech/zb22uk.xml
-%config /usr/etc/openzwave/domitech/ze27eu.xml
-%config /usr/etc/openzwave/domux/DX1CA-Z.xml
-%config /usr/etc/openzwave/domux/DX1CG-Z.xml
-%config /usr/etc/openzwave/domux/DX1DS-Z.xml
-%config /usr/etc/openzwave/domux/DX1HT-Z.xml
-%config /usr/etc/openzwave/domux/DX1MS-Z.xml
-%config /usr/etc/openzwave/domux/DX1SA-Z.xml
-%config /usr/etc/openzwave/domux/DX1WL-Z.xml
-%config /usr/etc/openzwave/domux/DX2SK-Z.xml
-%config /usr/etc/openzwave/dragontech/wd-100.xml
-%config /usr/etc/openzwave/duwi/05458.xml
-%config /usr/etc/openzwave/duwi/ZWES1000.xml
-%config /usr/etc/openzwave/duwi/ZWESJ300.xml
-%config /usr/etc/openzwave/duwi/zwfb.xml
-%config /usr/etc/openzwave/ecolink/doorwindow.xml
-%config /usr/etc/openzwave/ecolink/firefighter.xml
-%config /usr/etc/openzwave/ecolink/motion.xml
-%config /usr/etc/openzwave/ecolink/sensor.xml
-%config /usr/etc/openzwave/electronicsolutions/dbmz.xml
-%config /usr/etc/openzwave/enerwave/zw15rmplus.xml
-%config /usr/etc/openzwave/enerwave/zw15s.xml
-%config /usr/etc/openzwave/enerwave/zw20r.xml
-%config /usr/etc/openzwave/enerwave/zw20rm.xml
-%config /usr/etc/openzwave/enerwave/zw500d.xml
-%config /usr/etc/openzwave/enerwave/zwn-bpc.xml
-%config /usr/etc/openzwave/enerwave/zwn-sc7.xml
-%config /usr/etc/openzwave/enerwave/zwnrsm1plus.xml
-%config /usr/etc/openzwave/enerwave/zwnrsm2plus.xml
-%config /usr/etc/openzwave/eurotronic/eur_cometz.xml
-%config /usr/etc/openzwave/eurotronic/eur_stellaz.xml
-%config /usr/etc/openzwave/everspring/ad146.xml
-%config /usr/etc/openzwave/everspring/ad147.xml
-%config /usr/etc/openzwave/everspring/an145.xml
-%config /usr/etc/openzwave/everspring/an158.xml
-%config /usr/etc/openzwave/everspring/an179.xml
-%config /usr/etc/openzwave/everspring/an180.xml
-%config /usr/etc/openzwave/everspring/an181.xml
-%config /usr/etc/openzwave/everspring/hac01.xml
-%config /usr/etc/openzwave/everspring/hsp02.xml
-%config /usr/etc/openzwave/everspring/se812.xml
-%config /usr/etc/openzwave/everspring/sf812.xml
-%config /usr/etc/openzwave/everspring/sm103.xml
-%config /usr/etc/openzwave/everspring/sp103.xml
-%config /usr/etc/openzwave/everspring/sp814.xml
-%config /usr/etc/openzwave/everspring/sp816.xml
-%config /usr/etc/openzwave/everspring/st812.xml
-%config /usr/etc/openzwave/everspring/st814.xml
-%config /usr/etc/openzwave/everspring/st815.xml
-%config /usr/etc/openzwave/everspring/tse03.xml
-%config /usr/etc/openzwave/everspringct/hsm02.xml
-%config /usr/etc/openzwave/evolve/lrm-as.xml
-%config /usr/etc/openzwave/evolve/lsm-15.xml
-%config /usr/etc/openzwave/evolve/ltm-5.xml
-%config /usr/etc/openzwave/fakro/zwp10.xml
-%config /usr/etc/openzwave/fakro/zwrs.xml
-%config /usr/etc/openzwave/fakro/zws12.xml
-%config /usr/etc/openzwave/fakro/zws230.xml
-%config /usr/etc/openzwave/fibaro/fgbs001.xml
-%config /usr/etc/openzwave/fibaro/fgcd001.xml
-%config /usr/etc/openzwave/fibaro/fgd211.xml
-%config /usr/etc/openzwave/fibaro/fgd212.xml
-%config /usr/etc/openzwave/fibaro/fgdw2.xml
-%config /usr/etc/openzwave/fibaro/fgfs101.xml
-%config /usr/etc/openzwave/fibaro/fgfs101zw5.xml
-%config /usr/etc/openzwave/fibaro/fggc001.xml
-%config /usr/etc/openzwave/fibaro/fgk001.xml
-%config /usr/etc/openzwave/fibaro/fgk10x.xml
-%config /usr/etc/openzwave/fibaro/fgkf601.xml
-%config /usr/etc/openzwave/fibaro/fgms.xml
-%config /usr/etc/openzwave/fibaro/fgmszw5.xml
-%config /usr/etc/openzwave/fibaro/fgpb101.xml
-%config /usr/etc/openzwave/fibaro/fgr221.xml
-%config /usr/etc/openzwave/fibaro/fgrgbwm441.xml
-%config /usr/etc/openzwave/fibaro/fgrm222.xml
-%config /usr/etc/openzwave/fibaro/fgs211.xml
-%config /usr/etc/openzwave/fibaro/fgs212.xml
-%config /usr/etc/openzwave/fibaro/fgs213.xml
-%config /usr/etc/openzwave/fibaro/fgs221.xml
-%config /usr/etc/openzwave/fibaro/fgs222.xml
-%config /usr/etc/openzwave/fibaro/fgs223.xml
-%config /usr/etc/openzwave/fibaro/fgsd002.xml
-%config /usr/etc/openzwave/fibaro/fgss101.xml
-%config /usr/etc/openzwave/fibaro/fgt001.xml
-%config /usr/etc/openzwave/fibaro/fgwpe.xml
-%config /usr/etc/openzwave/fibaro/fgwpfzw5.xml
-%config /usr/etc/openzwave/firstalert/zcombo.xml
-%config /usr/etc/openzwave/forest/fs2z5232000002.xml
-%config /usr/etc/openzwave/fortrezz/fmi.xml
-%config /usr/etc/openzwave/fortrezz/mimo2plus.xml
-%config /usr/etc/openzwave/fortrezz/mimolite.xml
-%config /usr/etc/openzwave/fortrezz/ssa2.xml
-%config /usr/etc/openzwave/fortrezz/ssa3.xml
-%config /usr/etc/openzwave/fortrezz/wv01.xml
-%config /usr/etc/openzwave/fortrezz/wwa02.xml
-%config /usr/etc/openzwave/frostdale/fdn2nxx.xml
-%config /usr/etc/openzwave/ge/12719-plugin-switch.xml
-%config /usr/etc/openzwave/ge/12724-dimmer.xml
-%config /usr/etc/openzwave/ge/14282-plugin-switch.xml
-%config /usr/etc/openzwave/ge/14288-outlet.xml
-%config /usr/etc/openzwave/ge/14291-switch.xml
-%config /usr/etc/openzwave/ge/14292-toggle-switch.xml
-%config /usr/etc/openzwave/ge/14294-dimmer.xml
-%config /usr/etc/openzwave/ge/14295-dimmer-toggle.xml
-%config /usr/etc/openzwave/ge/26931-motion-switch.xml
-%config /usr/etc/openzwave/ge/26933-motion-dimmer.xml
-%config /usr/etc/openzwave/ge/dimmer.xml
-%config /usr/etc/openzwave/ge/dimmer_module.xml
-%config /usr/etc/openzwave/ge/hinge-pin.xml
-%config /usr/etc/openzwave/ge/receptacle.xml
-%config /usr/etc/openzwave/ge/relay.xml
-%config /usr/etc/openzwave/ge/ze26i.xml
-%config /usr/etc/openzwave/ge/zw4001-switch.xml
-%config /usr/etc/openzwave/ge/zw6302.xml
-%config /usr/etc/openzwave/gocontrol/GC-TBZ48L.xml
-%config /usr/etc/openzwave/gr/gr105.xml
-%config /usr/etc/openzwave/gr/gr105n.xml
-%config /usr/etc/openzwave/graber/brz1.xml
-%config /usr/etc/openzwave/graber/vcz1.xml
-%config /usr/etc/openzwave/greenwave/powernode1.xml
-%config /usr/etc/openzwave/greenwave/powernode6.xml
-%config /usr/etc/openzwave/hank/hkzw-dws01.xml
-%config /usr/etc/openzwave/hank/hkzw-fld01.xml
-%config /usr/etc/openzwave/hank/hkzw-ms01.xml
-%config /usr/etc/openzwave/hank/hkzw-ms02.xml
-%config /usr/etc/openzwave/hank/hkzw-rgb01.xml
-%config /usr/etc/openzwave/hank/hkzw-so01-smartplug.xml
-%config /usr/etc/openzwave/hank/hkzw-so03.xml
-%config /usr/etc/openzwave/hank/hkzw-so05-smartplug.xml
-%config /usr/etc/openzwave/hank/scenecontroller1.xml
-%config /usr/etc/openzwave/hank/scenecontroller4.xml
-%config /usr/etc/openzwave/heiman/HS1CA-Z.xml
-%config /usr/etc/openzwave/heiman/HS1CG-Z.xml
-%config /usr/etc/openzwave/heiman/HS1DS-Z.xml
-%config /usr/etc/openzwave/heiman/HS1HT-Z.xml
-%config /usr/etc/openzwave/heiman/HS1MS-Z.xml
-%config /usr/etc/openzwave/heiman/HS1SA-Z.xml
-%config /usr/etc/openzwave/heiman/HS1WL-Z.xml
-%config /usr/etc/openzwave/heiman/HS2SK-Z.xml
-%config /usr/etc/openzwave/homeseer/ezmotionplus.xml
-%config /usr/etc/openzwave/homeseer/hs-ms100plus.xml
-%config /usr/etc/openzwave/homeseer/hs-wd100plus.xml
-%config /usr/etc/openzwave/homeseer/hs-wd200plus.xml
-%config /usr/etc/openzwave/homeseer/hs-ws100plus.xml
-%config /usr/etc/openzwave/homeseer/hs-ws200plus.xml
-%config /usr/etc/openzwave/homeseer/hsm100.xml
-%config /usr/etc/openzwave/homeseer/hsm200.xml
-%config /usr/etc/openzwave/homeseer/ztroller.xml
-%config /usr/etc/openzwave/honeywell/lynx-touch-l5100.xml
-%config /usr/etc/openzwave/honeywell/th8320zw1000.xml
-%config /usr/etc/openzwave/horstmann/asrzw.xml
-%config /usr/etc/openzwave/horstmann/hrt4zw.xml
-%config /usr/etc/openzwave/horstmann/scsc17.xml
-%config /usr/etc/openzwave/horstmann/ses302.xml
-%config /usr/etc/openzwave/horstmann/ses303.xml
-%config /usr/etc/openzwave/horstmann/sir321.xml
-%config /usr/etc/openzwave/horstmann/srt321.xml
-%config /usr/etc/openzwave/horstmann/srt323.xml
-%config /usr/etc/openzwave/horstmann/ssr302.xml
-%config /usr/etc/openzwave/idlock/idlock101.xml
-%config /usr/etc/openzwave/ingersoll/dwzwave1.xml
-%config /usr/etc/openzwave/inovelli/nzw30.xml
-%config /usr/etc/openzwave/inovelli/nzw31.xml
-%config /usr/etc/openzwave/inovelli/nzw97.xml
-%config /usr/etc/openzwave/inovelli/simple_module.xml
-%config /usr/etc/openzwave/intermatic/ca8900.xml
-%config /usr/etc/openzwave/iris/rangeextender.xml
-%config /usr/etc/openzwave/kaipule/im20.xml
-%config /usr/etc/openzwave/kaipule/ix32.xml
-%config /usr/etc/openzwave/kwikset/smartcode.xml
-%config /usr/etc/openzwave/leviton/dz15s.xml
-%config /usr/etc/openzwave/leviton/dz6hd.xml
-%config /usr/etc/openzwave/leviton/dzpd3.xml
-%config /usr/etc/openzwave/leviton/rzi10.xml
-%config /usr/etc/openzwave/leviton/vrcpg.xml
-%config /usr/etc/openzwave/leviton/vrf01.xml
-%config /usr/etc/openzwave/leviton/vri06.xml
-%config /usr/etc/openzwave/leviton/vri10.xml
-%config /usr/etc/openzwave/linear/GC-TBZ48.xml
-%config /usr/etc/openzwave/linear/LB60Z-1.xml
-%config /usr/etc/openzwave/linear/PD300Z-2.xml
-%config /usr/etc/openzwave/linear/WA00Z-1.xml
-%config /usr/etc/openzwave/linear/WA105DBZ-1.xml
-%config /usr/etc/openzwave/linear/WADWAZ-1.xml
-%config /usr/etc/openzwave/linear/WAPIRZ-1.xml
-%config /usr/etc/openzwave/linear/WD500Z-1.xml
-%config /usr/etc/openzwave/linear/WD500Z5-1.xml
-%config /usr/etc/openzwave/linear/WS15Z-1.xml
-%config /usr/etc/openzwave/linear/WT00Z-1.xml
-%config /usr/etc/openzwave/logicsoft/ZHC5002.xml
-%config /usr/etc/openzwave/logicsoft/ZHC5010.xml
-%config /usr/etc/openzwave/manufacturer_specific.xml
-%config /usr/etc/openzwave/manufacturer_specific.xsd
-%config /usr/etc/openzwave/mcohome/mh8fceu.xml
-%config /usr/etc/openzwave/mcohome/mh9co2.xml
-%config /usr/etc/openzwave/mcohome/mhp210.xml
-%config /usr/etc/openzwave/mcohome/mhs311.xml
-%config /usr/etc/openzwave/mcohome/mhs312.xml
-%config /usr/etc/openzwave/mcohome/mhs314.xml
-%config /usr/etc/openzwave/mcohome/mhs411.xml
-%config /usr/etc/openzwave/mcohome/mhs412.xml
-%config /usr/etc/openzwave/mcohome/mhs513.xml
-%config /usr/etc/openzwave/merten/507801.xml
-%config /usr/etc/openzwave/merten/50x5xx.xml
-%config /usr/etc/openzwave/nexia/db100z.xml
-%config /usr/etc/openzwave/nodon/asp3100SmartPlug.xml
-%config /usr/etc/openzwave/nodon/crc3100OctanRemote.xml
-%config /usr/etc/openzwave/nodon/crc360xSofremote.xml
-%config /usr/etc/openzwave/nodon/cws3101wallswitch.xml
-%config /usr/etc/openzwave/nodon/msp31xxMicroSmartPlug.xml
-%config /usr/etc/openzwave/northq/nq9021.xml
-%config /usr/etc/openzwave/northq/nq9121.xml
-%config /usr/etc/openzwave/northq/nq92021.xml
-%config /usr/etc/openzwave/oomi/ft100.xml
-%config /usr/etc/openzwave/oomi/ft111.xml
-%config /usr/etc/openzwave/options.xml
-%config /usr/etc/openzwave/options.xsd
-%config /usr/etc/openzwave/philio/pan03.xml
-%config /usr/etc/openzwave/philio/pan04.xml
-%config /usr/etc/openzwave/philio/pan06.xml
-%config /usr/etc/openzwave/philio/pan07.xml
-%config /usr/etc/openzwave/philio/pan08.xml
-%config /usr/etc/openzwave/philio/pan11.xml
-%config /usr/etc/openzwave/philio/pan16.xml
-%config /usr/etc/openzwave/philio/phpab01.xml
-%config /usr/etc/openzwave/philio/phpat02.xml
-%config /usr/etc/openzwave/philio/phpsg01.xml
-%config /usr/etc/openzwave/philio/pse02.xml
-%config /usr/etc/openzwave/philio/psm02.xml
-%config /usr/etc/openzwave/philio/psp05.xml
-%config /usr/etc/openzwave/philio/psr04.xml
-%config /usr/etc/openzwave/philio/pst02-1c.xml
-%config /usr/etc/openzwave/philio/pst02-b.xml
-%config /usr/etc/openzwave/philio/pst02.xml
-%config /usr/etc/openzwave/polycontrol/doorlock.xml
-%config /usr/etc/openzwave/polycontrol/doorlockv3.xml
-%config /usr/etc/openzwave/polycontrol/keypad.xml
-%config /usr/etc/openzwave/polycontrol/polylock.xml
-%config /usr/etc/openzwave/popp/004407.xml
-%config /usr/etc/openzwave/popp/009105.xml
-%config /usr/etc/openzwave/popp/009303.xml
-%config /usr/etc/openzwave/popp/009402.xml
-%config /usr/etc/openzwave/popp/012501.xml
-%config /usr/etc/openzwave/popp/123580.xml
-%config /usr/etc/openzwave/popp/123601.xml
-%config /usr/etc/openzwave/popp/123658.xml
-%config /usr/etc/openzwave/popp/700045.xml
-%config /usr/etc/openzwave/popp/700168.xml
-%config /usr/etc/openzwave/popp/smoke-detector.xml
-%config /usr/etc/openzwave/popp/solar-siren.xml
-%config /usr/etc/openzwave/popp/zweather.xml
-%config /usr/etc/openzwave/pyozw_config.version
-%config /usr/etc/openzwave/qees/reto-dimmer-plus.xml
-%config /usr/etc/openzwave/qees/reto-plugin-switch.xml
-%config /usr/etc/openzwave/qubino/ZMNHAA2.xml
-%config /usr/etc/openzwave/qubino/ZMNHADx.xml
-%config /usr/etc/openzwave/qubino/ZMNHBA2.xml
-%config /usr/etc/openzwave/qubino/ZMNHBDx.xml
-%config /usr/etc/openzwave/qubino/ZMNHCA2.xml
-%config /usr/etc/openzwave/qubino/ZMNHCDx.xml
-%config /usr/etc/openzwave/qubino/ZMNHDA2.xml
-%config /usr/etc/openzwave/qubino/ZMNHDDx.xml
-%config /usr/etc/openzwave/qubino/ZMNHIA2.xml
-%config /usr/etc/openzwave/qubino/ZMNHIDxS1.xml
-%config /usr/etc/openzwave/qubino/ZMNHIDxS2.xml
-%config /usr/etc/openzwave/qubino/ZMNHJA2.xml
-%config /usr/etc/openzwave/qubino/ZMNHJD1.xml
-%config /usr/etc/openzwave/qubino/ZMNHKDx.xml
-%config /usr/etc/openzwave/qubino/ZMNHLAx.xml
-%config /usr/etc/openzwave/qubino/ZMNHLDx.xml
-%config /usr/etc/openzwave/qubino/ZMNHNDx.xml
-%config /usr/etc/openzwave/qubino/ZMNHODx.xml
-%config /usr/etc/openzwave/qubino/ZMNHSDx.xml
-%config /usr/etc/openzwave/qubino/ZMNHTDx.xml
-%config /usr/etc/openzwave/qubino/ZMNHTDxS3.xml
-%config /usr/etc/openzwave/qubino/ZMNHUD1.xml
-%config /usr/etc/openzwave/qubino/ZMNHVDx.xml
-%config /usr/etc/openzwave/qubino/ZMNHWD1.xml
-%config /usr/etc/openzwave/qubino/ZMNHXDx.xml
-%config /usr/etc/openzwave/qubino/ZMNHZDx.xml
-%config /usr/etc/openzwave/rcs/em52-zw.xml
-%config /usr/etc/openzwave/rcs/pm12-zw.xml
-%config /usr/etc/openzwave/rcs/therm0005.xml
-%config /usr/etc/openzwave/rcs/therm0007.xml
-%config /usr/etc/openzwave/rcs/therm0009.xml
-%config /usr/etc/openzwave/remotec/zfm-80.xml
-%config /usr/etc/openzwave/remotec/zrc-90.xml
-%config /usr/etc/openzwave/remotec/zts-110.xml
-%config /usr/etc/openzwave/remotec/zts-500.xml
-%config /usr/etc/openzwave/remotec/zurc.xml
-%config /usr/etc/openzwave/remotec/zxt-120.xml
-%config /usr/etc/openzwave/schlage/BE468.xml
-%config /usr/etc/openzwave/schlage/BE469.xml
-%config /usr/etc/openzwave/schlagelink/itemp.xml
-%config /usr/etc/openzwave/schlagelink/minikeypad.xml
-%config /usr/etc/openzwave/sensative/strips.xml
-%config /usr/etc/openzwave/sensative/stripscomfort.xml
-%config /usr/etc/openzwave/shenzen_neo/ls01ch.xml
-%config /usr/etc/openzwave/shenzen_neo/ls02ch.xml
-%config /usr/etc/openzwave/shenzen_neo/nas-ab01z.xml
-%config /usr/etc/openzwave/shenzen_neo/nas-ds01z.xml
-%config /usr/etc/openzwave/shenzen_neo/nas-pd01z.xml
-%config /usr/etc/openzwave/shenzen_neo/nas-rc01z.xml
-%config /usr/etc/openzwave/shenzen_neo/nas-wr01z.xml
-%config /usr/etc/openzwave/shenzen_neo/nas-ws02z.xml
-%config /usr/etc/openzwave/steinel/is140-2.xml
-%config /usr/etc/openzwave/steinel/rs-led-d2.xml
-%config /usr/etc/openzwave/steinel/xled-home-2.xml
-%config /usr/etc/openzwave/stelpro/stzw402.xml
-%config /usr/etc/openzwave/swiid/swiidinter.xml
-%config /usr/etc/openzwave/swiid/swiidplug.xml
-%config /usr/etc/openzwave/telldus/tzdw100.xml
-%config /usr/etc/openzwave/telldus/tzwp100.xml
-%config /usr/etc/openzwave/telldus/tzwp102.xml
-%config /usr/etc/openzwave/thermofloor/heatit021.xml
-%config /usr/etc/openzwave/thermofloor/heatit033.xml
-%config /usr/etc/openzwave/trane/TZEMT400AB32MAA.xml
-%config /usr/etc/openzwave/trane/TZEMT400BB32MAA.xml
-%config /usr/etc/openzwave/trane/TZEMT524AA21MA.xml
-%config /usr/etc/openzwave/tronika/zsc01d.xml
-%config /usr/etc/openzwave/vision/zd2102.xml
-%config /usr/etc/openzwave/vision/zd2105us5.xml
-%config /usr/etc/openzwave/vision/zd2201.xml
-%config /usr/etc/openzwave/vision/zd2301.xml
-%config /usr/etc/openzwave/vision/zf5201.xml
-%config /usr/etc/openzwave/vision/zg8101.xml
-%config /usr/etc/openzwave/vision/zl7261.xml
-%config /usr/etc/openzwave/vision/zl7431.xml
-%config /usr/etc/openzwave/vision/zm1601eu.xml
-%config /usr/etc/openzwave/vision/zm1601eu5.xml
-%config /usr/etc/openzwave/vision/zm1602eu.xml
-%config /usr/etc/openzwave/vision/zm1602eu5.xml
-%config /usr/etc/openzwave/vision/zp3102.xml
-%config /usr/etc/openzwave/vision/zp3111.xml
-%config /usr/etc/openzwave/vision/zs5101eu.xml
-%config /usr/etc/openzwave/vitrum/vitrumBS.xml
-%config /usr/etc/openzwave/waynedalton/WDTC-20.xml
-%config /usr/etc/openzwave/wenzhou/sm103.xml
-%config /usr/etc/openzwave/wenzhou/tsp01.xml
-%config /usr/etc/openzwave/wenzhou/tz55.xml
-%config /usr/etc/openzwave/wenzhou/tz56.xml
-%config /usr/etc/openzwave/wenzhou/tz65d.xml
-%config /usr/etc/openzwave/wenzhou/tz66d.xml
-%config /usr/etc/openzwave/wenzhou/tz67.xml
-%config /usr/etc/openzwave/wenzhou/tz68.xml
-%config /usr/etc/openzwave/wenzhou/tz69.xml
-%config /usr/etc/openzwave/wenzhou/tz74.xml
-%config /usr/etc/openzwave/wenzhou/tz79.xml
-%config /usr/etc/openzwave/wenzhou/tz88.xml
-%config /usr/etc/openzwave/widom/UBS104.xml
-%config /usr/etc/openzwave/widom/UME304C_S.xml
-%config /usr/etc/openzwave/widom/WDS.xml
-%config /usr/etc/openzwave/zipato/MiniKeypad.xml
-%config /usr/etc/openzwave/zipato/RGBBulb.xml
-%config /usr/etc/openzwave/zipato/RGBBulb2.xml
-%config /usr/etc/openzwave/zipato/pan04.xml
-%config /usr/etc/openzwave/zipato/vszd2102.xml
-%config /usr/etc/openzwave/zipato/zp3102.xml
-%config /usr/etc/openzwave/zooz/zen06.xml
-%config /usr/etc/openzwave/zooz/zen07.xml
-%config /usr/etc/openzwave/zooz/zen15.xml
-%config /usr/etc/openzwave/zooz/zen20.xml
-%config /usr/etc/openzwave/zooz/zen21.xml
-%config /usr/etc/openzwave/zooz/zen22.xml
-%config /usr/etc/openzwave/zooz/zen22v2.xml
-%config /usr/etc/openzwave/zooz/zen23.xml
-%config /usr/etc/openzwave/zooz/zen24.xml
-%config /usr/etc/openzwave/zooz/zse08.xml
-%config /usr/etc/openzwave/zooz/zse09.xml
-%config /usr/etc/openzwave/zooz/zse30.xml
-%config /usr/etc/openzwave/zooz/zse33.xml
-%config /usr/etc/openzwave/zooz/zse40.xml
-%config /usr/etc/openzwave/zwave.me/ZME_05431.xml
-%config /usr/etc/openzwave/zwave.me/ZME_05461.xml
-%config /usr/etc/openzwave/zwave.me/ZME_06433.xml
-%config /usr/etc/openzwave/zwave.me/ZME_06436.xml
-%config /usr/etc/openzwave/zwave.me/ZME_064381.xml
-%config /usr/etc/openzwave/zwave.me/ZME_064435.xml
-%config /usr/etc/openzwave/zwave.me/ZME_KFOB-S.xml
-%config /usr/etc/openzwave/zwave.me/ZME_RC2.xml
-%config /usr/etc/openzwave/zwave.me/ZME_WALLC-S.xml
-%config /usr/etc/openzwave/zwave.me/ZME_WCD2.xml
-%config /usr/etc/openzwave/zwave.me/ZUno.xml
-%config /usr/etc/openzwave/zwave.me/iTemp.xml
-%config /usr/etc/openzwave/zwave.me/kfob.xml
-%config /usr/etc/openzwave/zwave.me/popp_kfob-c.xml
-%config /usr/etc/openzwave/zwave.me/zweather.xml
-%config /usr/etc/openzwave/zwcfg.xsd
-%config /usr/etc/openzwave/zwp/WD-100.xml
-%config /usr/etc/openzwave/zwscene.xsd
+/usr/share/defaults/openzwave/2gig/ct100.xml
+/usr/share/defaults/openzwave/2gig/ct101.xml
+/usr/share/defaults/openzwave/2gig/ct30.xml
+/usr/share/defaults/openzwave/2gig/ct32.xml
+/usr/share/defaults/openzwave/2gig/ct50e.xml
+/usr/share/defaults/openzwave/2gig/ct80.xml
+/usr/share/defaults/openzwave/BeNext/1poleswitch.xml
+/usr/share/defaults/openzwave/BeNext/2poleswitch.xml
+/usr/share/defaults/openzwave/BeNext/AlarmSound.xml
+/usr/share/defaults/openzwave/BeNext/BuiltinDimmer.xml
+/usr/share/defaults/openzwave/BeNext/DoorSensor.xml
+/usr/share/defaults/openzwave/BeNext/EnergySwitch.xml
+/usr/share/defaults/openzwave/BeNext/HeatingControl.xml
+/usr/share/defaults/openzwave/BeNext/Molite.xml
+/usr/share/defaults/openzwave/BeNext/P1dongle.xml
+/usr/share/defaults/openzwave/BeNext/PanicButton.xml
+/usr/share/defaults/openzwave/BeNext/PanicWatch.xml
+/usr/share/defaults/openzwave/BeNext/PluginDimmer.xml
+/usr/share/defaults/openzwave/BeNext/SceneController.xml
+/usr/share/defaults/openzwave/BeNext/TagReader.xml
+/usr/share/defaults/openzwave/BeNext/TagReader500.xml
+/usr/share/defaults/openzwave/act/lfm20.xml
+/usr/share/defaults/openzwave/act/zdm230.xml
+/usr/share/defaults/openzwave/act/zdw103.xml
+/usr/share/defaults/openzwave/act/zdw232.xml
+/usr/share/defaults/openzwave/act/zir010.xml
+/usr/share/defaults/openzwave/act/zrp110.xml
+/usr/share/defaults/openzwave/act/zrw103.xml
+/usr/share/defaults/openzwave/aeotec/dsa03202.xml
+/usr/share/defaults/openzwave/aeotec/dsa22.xml
+/usr/share/defaults/openzwave/aeotec/dsa38.xml
+/usr/share/defaults/openzwave/aeotec/dsb04100.xml
+/usr/share/defaults/openzwave/aeotec/dsb05.xml
+/usr/share/defaults/openzwave/aeotec/dsb09104.xml
+/usr/share/defaults/openzwave/aeotec/dsb28.xml
+/usr/share/defaults/openzwave/aeotec/dsb29.xml
+/usr/share/defaults/openzwave/aeotec/dsb45.xml
+/usr/share/defaults/openzwave/aeotec/dsb54.xml
+/usr/share/defaults/openzwave/aeotec/dsc06106.xml
+/usr/share/defaults/openzwave/aeotec/dsc08101.xml
+/usr/share/defaults/openzwave/aeotec/dsc10.xml
+/usr/share/defaults/openzwave/aeotec/dsc11.xml
+/usr/share/defaults/openzwave/aeotec/dsc12104.xml
+/usr/share/defaults/openzwave/aeotec/dsc13104.xml
+/usr/share/defaults/openzwave/aeotec/dsc14104.xml
+/usr/share/defaults/openzwave/aeotec/dsc18103.xml
+/usr/share/defaults/openzwave/aeotec/dsc19103.xml
+/usr/share/defaults/openzwave/aeotec/dsc24.xml
+/usr/share/defaults/openzwave/aeotec/dsc26103.xml
+/usr/share/defaults/openzwave/aeotec/dsc27103.xml
+/usr/share/defaults/openzwave/aeotec/dsc35103.xml
+/usr/share/defaults/openzwave/aeotec/dsd37.xml
+/usr/share/defaults/openzwave/aeotec/zw056.xml
+/usr/share/defaults/openzwave/aeotec/zw062.xml
+/usr/share/defaults/openzwave/aeotec/zw074.xml
+/usr/share/defaults/openzwave/aeotec/zw075.xml
+/usr/share/defaults/openzwave/aeotec/zw078.xml
+/usr/share/defaults/openzwave/aeotec/zw080.xml
+/usr/share/defaults/openzwave/aeotec/zw088.xml
+/usr/share/defaults/openzwave/aeotec/zw089.xml
+/usr/share/defaults/openzwave/aeotec/zw090.xml
+/usr/share/defaults/openzwave/aeotec/zw095.xml
+/usr/share/defaults/openzwave/aeotec/zw096.xml
+/usr/share/defaults/openzwave/aeotec/zw097.xml
+/usr/share/defaults/openzwave/aeotec/zw098.xml
+/usr/share/defaults/openzwave/aeotec/zw099.xml
+/usr/share/defaults/openzwave/aeotec/zw100.xml
+/usr/share/defaults/openzwave/aeotec/zw111.xml
+/usr/share/defaults/openzwave/aeotec/zw112.xml
+/usr/share/defaults/openzwave/aeotec/zw116.xml
+/usr/share/defaults/openzwave/aeotec/zw117.xml
+/usr/share/defaults/openzwave/aeotec/zw120.xml
+/usr/share/defaults/openzwave/aeotec/zw121.xml
+/usr/share/defaults/openzwave/aeotec/zw122.xml
+/usr/share/defaults/openzwave/aeotec/zw129.xml
+/usr/share/defaults/openzwave/aeotec/zw130.xml
+/usr/share/defaults/openzwave/aeotec/zw132.xml
+/usr/share/defaults/openzwave/aeotec/zw139.xml
+/usr/share/defaults/openzwave/aeotec/zw140.xml
+/usr/share/defaults/openzwave/aeotec/zw141.xml
+/usr/share/defaults/openzwave/aeotec/zwa001.xml
+/usr/share/defaults/openzwave/aeotec/zwa002.xml
+/usr/share/defaults/openzwave/aeotec/zwa003.xml
+/usr/share/defaults/openzwave/aeotec/zwa004.xml
+/usr/share/defaults/openzwave/aeotec/zwa005.xml
+/usr/share/defaults/openzwave/assa_abloy/ConexisL1.xml
+/usr/share/defaults/openzwave/assa_abloy/KeyfreeConnected-plus.xml
+/usr/share/defaults/openzwave/assa_abloy/KeyfreeConnected.xml
+/usr/share/defaults/openzwave/assa_abloy/PushButtonDeadbolt.xml
+/usr/share/defaults/openzwave/assa_abloy/PushButtonLever.xml
+/usr/share/defaults/openzwave/assa_abloy/TouchDeadbolt.xml
+/usr/share/defaults/openzwave/assa_abloy/TouchLever.xml
+/usr/share/defaults/openzwave/assa_abloy/nexTouch.xml
+/usr/share/defaults/openzwave/august/asl-03.xml
+/usr/share/defaults/openzwave/config/2gig/ct100.xml
+/usr/share/defaults/openzwave/config/2gig/ct101.xml
+/usr/share/defaults/openzwave/config/2gig/ct30.xml
+/usr/share/defaults/openzwave/config/2gig/ct32.xml
+/usr/share/defaults/openzwave/config/2gig/ct50e.xml
+/usr/share/defaults/openzwave/config/2gig/ct80.xml
+/usr/share/defaults/openzwave/config/BeNext/1poleswitch.xml
+/usr/share/defaults/openzwave/config/BeNext/2poleswitch.xml
+/usr/share/defaults/openzwave/config/BeNext/AlarmSound.xml
+/usr/share/defaults/openzwave/config/BeNext/BuiltinDimmer.xml
+/usr/share/defaults/openzwave/config/BeNext/DoorSensor.xml
+/usr/share/defaults/openzwave/config/BeNext/EnergySwitch.xml
+/usr/share/defaults/openzwave/config/BeNext/HeatingControl.xml
+/usr/share/defaults/openzwave/config/BeNext/Molite.xml
+/usr/share/defaults/openzwave/config/BeNext/P1dongle.xml
+/usr/share/defaults/openzwave/config/BeNext/PanicButton.xml
+/usr/share/defaults/openzwave/config/BeNext/PanicWatch.xml
+/usr/share/defaults/openzwave/config/BeNext/PluginDimmer.xml
+/usr/share/defaults/openzwave/config/BeNext/SceneController.xml
+/usr/share/defaults/openzwave/config/BeNext/TagReader.xml
+/usr/share/defaults/openzwave/config/BeNext/TagReader500.xml
+/usr/share/defaults/openzwave/config/act/lfm20.xml
+/usr/share/defaults/openzwave/config/act/zdm230.xml
+/usr/share/defaults/openzwave/config/act/zdw103.xml
+/usr/share/defaults/openzwave/config/act/zdw232.xml
+/usr/share/defaults/openzwave/config/act/zir010.xml
+/usr/share/defaults/openzwave/config/act/zrp110.xml
+/usr/share/defaults/openzwave/config/act/zrw103.xml
+/usr/share/defaults/openzwave/config/aeotec/dsa03202.xml
+/usr/share/defaults/openzwave/config/aeotec/dsa22.xml
+/usr/share/defaults/openzwave/config/aeotec/dsa38.xml
+/usr/share/defaults/openzwave/config/aeotec/dsb04100.xml
+/usr/share/defaults/openzwave/config/aeotec/dsb05.xml
+/usr/share/defaults/openzwave/config/aeotec/dsb09104.xml
+/usr/share/defaults/openzwave/config/aeotec/dsb28.xml
+/usr/share/defaults/openzwave/config/aeotec/dsb29.xml
+/usr/share/defaults/openzwave/config/aeotec/dsb45.xml
+/usr/share/defaults/openzwave/config/aeotec/dsb54.xml
+/usr/share/defaults/openzwave/config/aeotec/dsc06106.xml
+/usr/share/defaults/openzwave/config/aeotec/dsc08101.xml
+/usr/share/defaults/openzwave/config/aeotec/dsc10.xml
+/usr/share/defaults/openzwave/config/aeotec/dsc11.xml
+/usr/share/defaults/openzwave/config/aeotec/dsc12104.xml
+/usr/share/defaults/openzwave/config/aeotec/dsc13104.xml
+/usr/share/defaults/openzwave/config/aeotec/dsc14104.xml
+/usr/share/defaults/openzwave/config/aeotec/dsc18103.xml
+/usr/share/defaults/openzwave/config/aeotec/dsc19103.xml
+/usr/share/defaults/openzwave/config/aeotec/dsc24.xml
+/usr/share/defaults/openzwave/config/aeotec/dsc26103.xml
+/usr/share/defaults/openzwave/config/aeotec/dsc27103.xml
+/usr/share/defaults/openzwave/config/aeotec/dsc35103.xml
+/usr/share/defaults/openzwave/config/aeotec/dsd37.xml
+/usr/share/defaults/openzwave/config/aeotec/zw056.xml
+/usr/share/defaults/openzwave/config/aeotec/zw062.xml
+/usr/share/defaults/openzwave/config/aeotec/zw074.xml
+/usr/share/defaults/openzwave/config/aeotec/zw075.xml
+/usr/share/defaults/openzwave/config/aeotec/zw078.xml
+/usr/share/defaults/openzwave/config/aeotec/zw080.xml
+/usr/share/defaults/openzwave/config/aeotec/zw088.xml
+/usr/share/defaults/openzwave/config/aeotec/zw089.xml
+/usr/share/defaults/openzwave/config/aeotec/zw090.xml
+/usr/share/defaults/openzwave/config/aeotec/zw095.xml
+/usr/share/defaults/openzwave/config/aeotec/zw096.xml
+/usr/share/defaults/openzwave/config/aeotec/zw097.xml
+/usr/share/defaults/openzwave/config/aeotec/zw098.xml
+/usr/share/defaults/openzwave/config/aeotec/zw099.xml
+/usr/share/defaults/openzwave/config/aeotec/zw100.xml
+/usr/share/defaults/openzwave/config/aeotec/zw111.xml
+/usr/share/defaults/openzwave/config/aeotec/zw112.xml
+/usr/share/defaults/openzwave/config/aeotec/zw116.xml
+/usr/share/defaults/openzwave/config/aeotec/zw117.xml
+/usr/share/defaults/openzwave/config/aeotec/zw120.xml
+/usr/share/defaults/openzwave/config/aeotec/zw121.xml
+/usr/share/defaults/openzwave/config/aeotec/zw122.xml
+/usr/share/defaults/openzwave/config/aeotec/zw129.xml
+/usr/share/defaults/openzwave/config/aeotec/zw130.xml
+/usr/share/defaults/openzwave/config/aeotec/zw132.xml
+/usr/share/defaults/openzwave/config/aeotec/zw139.xml
+/usr/share/defaults/openzwave/config/aeotec/zw140.xml
+/usr/share/defaults/openzwave/config/assa_abloy/ConexisL1.xml
+/usr/share/defaults/openzwave/config/assa_abloy/KeyfreeConnected-plus.xml
+/usr/share/defaults/openzwave/config/assa_abloy/KeyfreeConnected.xml
+/usr/share/defaults/openzwave/config/assa_abloy/PushButtonDeadbolt.xml
+/usr/share/defaults/openzwave/config/assa_abloy/PushButtonLever.xml
+/usr/share/defaults/openzwave/config/assa_abloy/TouchDeadbolt.xml
+/usr/share/defaults/openzwave/config/assa_abloy/TouchLever.xml
+/usr/share/defaults/openzwave/config/assa_abloy/nexTouch.xml
+/usr/share/defaults/openzwave/config/cooper/RF9501.xml
+/usr/share/defaults/openzwave/config/cooper/RF9505-T.xml
+/usr/share/defaults/openzwave/config/cooper/RF9517.xml
+/usr/share/defaults/openzwave/config/cooper/RF9540-N.xml
+/usr/share/defaults/openzwave/config/cooper/RF9542-Z.xml
+/usr/share/defaults/openzwave/config/cooper/RFWC5.xml
+/usr/share/defaults/openzwave/config/danfoss/living.xml
+/usr/share/defaults/openzwave/config/danfoss/rsroom.xml
+/usr/share/defaults/openzwave/config/danfoss/z.xml
+/usr/share/defaults/openzwave/config/device_classes.xml
+/usr/share/defaults/openzwave/config/device_classes.xsd
+/usr/share/defaults/openzwave/config/device_configuration.xsd
+/usr/share/defaults/openzwave/config/devolo/connectz.xml
+/usr/share/defaults/openzwave/config/devolo/mt02648.xml
+/usr/share/defaults/openzwave/config/devolo/mt02755.xml
+/usr/share/defaults/openzwave/config/devolo/mt02758.xml
+/usr/share/defaults/openzwave/config/devolo/mt02792.xml
+/usr/share/defaults/openzwave/config/devolo/mt2646.xml
+/usr/share/defaults/openzwave/config/devolo/mt2647.xml
+/usr/share/defaults/openzwave/config/devolo/mt2652.xml
+/usr/share/defaults/openzwave/config/devolo/mt2653.xml
+/usr/share/defaults/openzwave/config/devolo/mt2756.xml
+/usr/share/defaults/openzwave/config/devolo/rs014G0159.xml
+/usr/share/defaults/openzwave/config/dlink/dch-z110.xml
+/usr/share/defaults/openzwave/config/dlink/dch-z120.xml
+/usr/share/defaults/openzwave/config/dlink/dch-z510.xml
+/usr/share/defaults/openzwave/config/dome/0002.xml
+/usr/share/defaults/openzwave/config/dome/0083.xml
+/usr/share/defaults/openzwave/config/dome/0085.xml
+/usr/share/defaults/openzwave/config/dome/0086.xml
+/usr/share/defaults/openzwave/config/dome/0087.xml
+/usr/share/defaults/openzwave/config/dome/0088.xml
+/usr/share/defaults/openzwave/config/dome/0101.xml
+/usr/share/defaults/openzwave/config/dome/0201.xml
+/usr/share/defaults/openzwave/config/domitech/zb22uk.xml
+/usr/share/defaults/openzwave/config/domitech/ze27eu.xml
+/usr/share/defaults/openzwave/config/domux/DX1CA-Z.xml
+/usr/share/defaults/openzwave/config/domux/DX1CG-Z.xml
+/usr/share/defaults/openzwave/config/domux/DX1DS-Z.xml
+/usr/share/defaults/openzwave/config/domux/DX1HT-Z.xml
+/usr/share/defaults/openzwave/config/domux/DX1MS-Z.xml
+/usr/share/defaults/openzwave/config/domux/DX1SA-Z.xml
+/usr/share/defaults/openzwave/config/domux/DX1WL-Z.xml
+/usr/share/defaults/openzwave/config/domux/DX2SK-Z.xml
+/usr/share/defaults/openzwave/config/dragontech/wd-100.xml
+/usr/share/defaults/openzwave/config/duwi/05458.xml
+/usr/share/defaults/openzwave/config/duwi/ZWES1000.xml
+/usr/share/defaults/openzwave/config/duwi/ZWESJ300.xml
+/usr/share/defaults/openzwave/config/duwi/zwfb.xml
+/usr/share/defaults/openzwave/config/ecolink/doorwindow.xml
+/usr/share/defaults/openzwave/config/ecolink/firefighter.xml
+/usr/share/defaults/openzwave/config/ecolink/motion.xml
+/usr/share/defaults/openzwave/config/ecolink/sensor.xml
+/usr/share/defaults/openzwave/config/electronicsolutions/dbmz.xml
+/usr/share/defaults/openzwave/config/enerwave/zw15rmplus.xml
+/usr/share/defaults/openzwave/config/enerwave/zw15s.xml
+/usr/share/defaults/openzwave/config/enerwave/zw20r.xml
+/usr/share/defaults/openzwave/config/enerwave/zw20rm.xml
+/usr/share/defaults/openzwave/config/enerwave/zw500d.xml
+/usr/share/defaults/openzwave/config/enerwave/zwn-bpc.xml
+/usr/share/defaults/openzwave/config/enerwave/zwn-sc7.xml
+/usr/share/defaults/openzwave/config/enerwave/zwnrsm1plus.xml
+/usr/share/defaults/openzwave/config/enerwave/zwnrsm2plus.xml
+/usr/share/defaults/openzwave/config/eurotronic/eur_cometz.xml
+/usr/share/defaults/openzwave/config/eurotronic/eur_stellaz.xml
+/usr/share/defaults/openzwave/config/everspring/ad146.xml
+/usr/share/defaults/openzwave/config/everspring/ad147.xml
+/usr/share/defaults/openzwave/config/everspring/an145.xml
+/usr/share/defaults/openzwave/config/everspring/an158.xml
+/usr/share/defaults/openzwave/config/everspring/an179.xml
+/usr/share/defaults/openzwave/config/everspring/an180.xml
+/usr/share/defaults/openzwave/config/everspring/an181.xml
+/usr/share/defaults/openzwave/config/everspring/hac01.xml
+/usr/share/defaults/openzwave/config/everspring/hsp02.xml
+/usr/share/defaults/openzwave/config/everspring/se812.xml
+/usr/share/defaults/openzwave/config/everspring/sf812.xml
+/usr/share/defaults/openzwave/config/everspring/sm103.xml
+/usr/share/defaults/openzwave/config/everspring/sp103.xml
+/usr/share/defaults/openzwave/config/everspring/sp814.xml
+/usr/share/defaults/openzwave/config/everspring/sp816.xml
+/usr/share/defaults/openzwave/config/everspring/st812.xml
+/usr/share/defaults/openzwave/config/everspring/st814.xml
+/usr/share/defaults/openzwave/config/everspring/st815.xml
+/usr/share/defaults/openzwave/config/everspring/tse03.xml
+/usr/share/defaults/openzwave/config/everspringct/hsm02.xml
+/usr/share/defaults/openzwave/config/evolve/lrm-as.xml
+/usr/share/defaults/openzwave/config/evolve/lsm-15.xml
+/usr/share/defaults/openzwave/config/evolve/ltm-5.xml
+/usr/share/defaults/openzwave/config/fakro/zwp10.xml
+/usr/share/defaults/openzwave/config/fakro/zwrs.xml
+/usr/share/defaults/openzwave/config/fakro/zws12.xml
+/usr/share/defaults/openzwave/config/fakro/zws230.xml
+/usr/share/defaults/openzwave/config/fibaro/fgbs001.xml
+/usr/share/defaults/openzwave/config/fibaro/fgcd001.xml
+/usr/share/defaults/openzwave/config/fibaro/fgd211.xml
+/usr/share/defaults/openzwave/config/fibaro/fgd212.xml
+/usr/share/defaults/openzwave/config/fibaro/fgdw2.xml
+/usr/share/defaults/openzwave/config/fibaro/fgfs101.xml
+/usr/share/defaults/openzwave/config/fibaro/fgfs101zw5.xml
+/usr/share/defaults/openzwave/config/fibaro/fggc001.xml
+/usr/share/defaults/openzwave/config/fibaro/fgk001.xml
+/usr/share/defaults/openzwave/config/fibaro/fgk10x.xml
+/usr/share/defaults/openzwave/config/fibaro/fgkf601.xml
+/usr/share/defaults/openzwave/config/fibaro/fgms.xml
+/usr/share/defaults/openzwave/config/fibaro/fgmszw5.xml
+/usr/share/defaults/openzwave/config/fibaro/fgpb101.xml
+/usr/share/defaults/openzwave/config/fibaro/fgr221.xml
+/usr/share/defaults/openzwave/config/fibaro/fgrgbwm441.xml
+/usr/share/defaults/openzwave/config/fibaro/fgrm222.xml
+/usr/share/defaults/openzwave/config/fibaro/fgs211.xml
+/usr/share/defaults/openzwave/config/fibaro/fgs212.xml
+/usr/share/defaults/openzwave/config/fibaro/fgs213.xml
+/usr/share/defaults/openzwave/config/fibaro/fgs221.xml
+/usr/share/defaults/openzwave/config/fibaro/fgs222.xml
+/usr/share/defaults/openzwave/config/fibaro/fgs223.xml
+/usr/share/defaults/openzwave/config/fibaro/fgsd002.xml
+/usr/share/defaults/openzwave/config/fibaro/fgss101.xml
+/usr/share/defaults/openzwave/config/fibaro/fgt001.xml
+/usr/share/defaults/openzwave/config/fibaro/fgwpe.xml
+/usr/share/defaults/openzwave/config/fibaro/fgwpfzw5.xml
+/usr/share/defaults/openzwave/config/firstalert/zcombo.xml
+/usr/share/defaults/openzwave/config/forest/fs2z5232000002.xml
+/usr/share/defaults/openzwave/config/fortrezz/fmi.xml
+/usr/share/defaults/openzwave/config/fortrezz/mimo2plus.xml
+/usr/share/defaults/openzwave/config/fortrezz/mimolite.xml
+/usr/share/defaults/openzwave/config/fortrezz/ssa2.xml
+/usr/share/defaults/openzwave/config/fortrezz/ssa3.xml
+/usr/share/defaults/openzwave/config/fortrezz/wv01.xml
+/usr/share/defaults/openzwave/config/fortrezz/wwa02.xml
+/usr/share/defaults/openzwave/config/frostdale/fdn2nxx.xml
+/usr/share/defaults/openzwave/config/ge/12719-plugin-switch.xml
+/usr/share/defaults/openzwave/config/ge/12724-dimmer.xml
+/usr/share/defaults/openzwave/config/ge/14282-plugin-switch.xml
+/usr/share/defaults/openzwave/config/ge/14288-outlet.xml
+/usr/share/defaults/openzwave/config/ge/14291-switch.xml
+/usr/share/defaults/openzwave/config/ge/14292-toggle-switch.xml
+/usr/share/defaults/openzwave/config/ge/14294-dimmer.xml
+/usr/share/defaults/openzwave/config/ge/14295-dimmer-toggle.xml
+/usr/share/defaults/openzwave/config/ge/26931-motion-switch.xml
+/usr/share/defaults/openzwave/config/ge/26933-motion-dimmer.xml
+/usr/share/defaults/openzwave/config/ge/dimmer.xml
+/usr/share/defaults/openzwave/config/ge/dimmer_module.xml
+/usr/share/defaults/openzwave/config/ge/hinge-pin.xml
+/usr/share/defaults/openzwave/config/ge/receptacle.xml
+/usr/share/defaults/openzwave/config/ge/relay.xml
+/usr/share/defaults/openzwave/config/ge/ze26i.xml
+/usr/share/defaults/openzwave/config/ge/zw4001-switch.xml
+/usr/share/defaults/openzwave/config/ge/zw6302.xml
+/usr/share/defaults/openzwave/config/gocontrol/GC-TBZ48L.xml
+/usr/share/defaults/openzwave/config/gr/gr105.xml
+/usr/share/defaults/openzwave/config/gr/gr105n.xml
+/usr/share/defaults/openzwave/config/greenwave/powernode1.xml
+/usr/share/defaults/openzwave/config/greenwave/powernode6.xml
+/usr/share/defaults/openzwave/config/hank/hkzw-dws01.xml
+/usr/share/defaults/openzwave/config/hank/hkzw-ms01.xml
+/usr/share/defaults/openzwave/config/hank/hkzw-rgb01.xml
+/usr/share/defaults/openzwave/config/hank/hkzw-so01-smartplug.xml
+/usr/share/defaults/openzwave/config/hank/hkzw-so03.xml
+/usr/share/defaults/openzwave/config/hank/hkzw-so05-smartplug.xml
+/usr/share/defaults/openzwave/config/hank/scenecontroller1.xml
+/usr/share/defaults/openzwave/config/hank/scenecontroller4.xml
+/usr/share/defaults/openzwave/config/heiman/HS1CA-Z.xml
+/usr/share/defaults/openzwave/config/heiman/HS1CG-Z.xml
+/usr/share/defaults/openzwave/config/heiman/HS1DS-Z.xml
+/usr/share/defaults/openzwave/config/heiman/HS1HT-Z.xml
+/usr/share/defaults/openzwave/config/heiman/HS1MS-Z.xml
+/usr/share/defaults/openzwave/config/heiman/HS1SA-Z.xml
+/usr/share/defaults/openzwave/config/heiman/HS1WL-Z.xml
+/usr/share/defaults/openzwave/config/heiman/HS2SK-Z.xml
+/usr/share/defaults/openzwave/config/homeseer/ezmotionplus.xml
+/usr/share/defaults/openzwave/config/homeseer/hs-wd100plus.xml
+/usr/share/defaults/openzwave/config/homeseer/hs-wd200plus.xml
+/usr/share/defaults/openzwave/config/homeseer/hs-ws100plus.xml
+/usr/share/defaults/openzwave/config/homeseer/hsm100.xml
+/usr/share/defaults/openzwave/config/homeseer/hsm200.xml
+/usr/share/defaults/openzwave/config/homeseer/ztroller.xml
+/usr/share/defaults/openzwave/config/honeywell/lynx-touch-l5100.xml
+/usr/share/defaults/openzwave/config/honeywell/th8320zw1000.xml
+/usr/share/defaults/openzwave/config/horstmann/asrzw.xml
+/usr/share/defaults/openzwave/config/horstmann/hrt4zw.xml
+/usr/share/defaults/openzwave/config/horstmann/scsc17.xml
+/usr/share/defaults/openzwave/config/horstmann/ses302.xml
+/usr/share/defaults/openzwave/config/horstmann/ses303.xml
+/usr/share/defaults/openzwave/config/horstmann/sir321.xml
+/usr/share/defaults/openzwave/config/horstmann/srt323.xml
+/usr/share/defaults/openzwave/config/horstmann/ssr302.xml
+/usr/share/defaults/openzwave/config/idlock/idlock101.xml
+/usr/share/defaults/openzwave/config/ingersoll/dwzwave1.xml
+/usr/share/defaults/openzwave/config/inovelli/simple_module.xml
+/usr/share/defaults/openzwave/config/intermatic/ca8900.xml
+/usr/share/defaults/openzwave/config/iris/rangeextender.xml
+/usr/share/defaults/openzwave/config/kaipule/im20.xml
+/usr/share/defaults/openzwave/config/kaipule/ix32.xml
+/usr/share/defaults/openzwave/config/kwikset/smartcode.xml
+/usr/share/defaults/openzwave/config/leviton/dz15s.xml
+/usr/share/defaults/openzwave/config/leviton/dz6hd.xml
+/usr/share/defaults/openzwave/config/leviton/dzpd3.xml
+/usr/share/defaults/openzwave/config/leviton/rzi10.xml
+/usr/share/defaults/openzwave/config/leviton/vrcpg.xml
+/usr/share/defaults/openzwave/config/leviton/vrf01.xml
+/usr/share/defaults/openzwave/config/leviton/vri06.xml
+/usr/share/defaults/openzwave/config/leviton/vri10.xml
+/usr/share/defaults/openzwave/config/linear/GC-TBZ48.xml
+/usr/share/defaults/openzwave/config/linear/LB60Z-1.xml
+/usr/share/defaults/openzwave/config/linear/PD300Z-2.xml
+/usr/share/defaults/openzwave/config/linear/WA00Z-1.xml
+/usr/share/defaults/openzwave/config/linear/WA105DBZ-1.xml
+/usr/share/defaults/openzwave/config/linear/WADWAZ-1.xml
+/usr/share/defaults/openzwave/config/linear/WAPIRZ-1.xml
+/usr/share/defaults/openzwave/config/linear/WD500Z-1.xml
+/usr/share/defaults/openzwave/config/linear/WD500Z5-1.xml
+/usr/share/defaults/openzwave/config/linear/WS15Z-1.xml
+/usr/share/defaults/openzwave/config/linear/WT00Z-1.xml
+/usr/share/defaults/openzwave/config/logicsoft/ZHC5002.xml
+/usr/share/defaults/openzwave/config/logicsoft/ZHC5010.xml
+/usr/share/defaults/openzwave/config/manufacturer_specific.xml
+/usr/share/defaults/openzwave/config/manufacturer_specific.xsd
+/usr/share/defaults/openzwave/config/mcohome/mh8fceu.xml
+/usr/share/defaults/openzwave/config/mcohome/mh9co2.xml
+/usr/share/defaults/openzwave/config/mcohome/mhp210.xml
+/usr/share/defaults/openzwave/config/mcohome/mhs311.xml
+/usr/share/defaults/openzwave/config/mcohome/mhs312.xml
+/usr/share/defaults/openzwave/config/mcohome/mhs314.xml
+/usr/share/defaults/openzwave/config/mcohome/mhs411.xml
+/usr/share/defaults/openzwave/config/mcohome/mhs412.xml
+/usr/share/defaults/openzwave/config/mcohome/mhs513.xml
+/usr/share/defaults/openzwave/config/merten/507801.xml
+/usr/share/defaults/openzwave/config/merten/50x5xx.xml
+/usr/share/defaults/openzwave/config/nexia/db100z.xml
+/usr/share/defaults/openzwave/config/nodon/asp3100SmartPlug.xml
+/usr/share/defaults/openzwave/config/nodon/crc3100OctanRemote.xml
+/usr/share/defaults/openzwave/config/nodon/crc360xSofremote.xml
+/usr/share/defaults/openzwave/config/nodon/cws3101wallswitch.xml
+/usr/share/defaults/openzwave/config/nodon/msp31xxMicroSmartPlug.xml
+/usr/share/defaults/openzwave/config/northq/nq9021.xml
+/usr/share/defaults/openzwave/config/northq/nq9121.xml
+/usr/share/defaults/openzwave/config/northq/nq92021.xml
+/usr/share/defaults/openzwave/config/oomi/ft100.xml
+/usr/share/defaults/openzwave/config/oomi/ft111.xml
+/usr/share/defaults/openzwave/config/options.xml
+/usr/share/defaults/openzwave/config/options.xsd
+/usr/share/defaults/openzwave/config/philio/pan03.xml
+/usr/share/defaults/openzwave/config/philio/pan04.xml
+/usr/share/defaults/openzwave/config/philio/pan06.xml
+/usr/share/defaults/openzwave/config/philio/pan07.xml
+/usr/share/defaults/openzwave/config/philio/pan08.xml
+/usr/share/defaults/openzwave/config/philio/pan11.xml
+/usr/share/defaults/openzwave/config/philio/pan16.xml
+/usr/share/defaults/openzwave/config/philio/phpab01.xml
+/usr/share/defaults/openzwave/config/philio/phpat02.xml
+/usr/share/defaults/openzwave/config/philio/phpsg01.xml
+/usr/share/defaults/openzwave/config/philio/pse02.xml
+/usr/share/defaults/openzwave/config/philio/psm02.xml
+/usr/share/defaults/openzwave/config/philio/psp05.xml
+/usr/share/defaults/openzwave/config/philio/psr04.xml
+/usr/share/defaults/openzwave/config/philio/pst02-1c.xml
+/usr/share/defaults/openzwave/config/philio/pst02-b.xml
+/usr/share/defaults/openzwave/config/philio/pst02.xml
+/usr/share/defaults/openzwave/config/polycontrol/doorlock.xml
+/usr/share/defaults/openzwave/config/polycontrol/doorlockv3.xml
+/usr/share/defaults/openzwave/config/polycontrol/keypad.xml
+/usr/share/defaults/openzwave/config/polycontrol/polylock.xml
+/usr/share/defaults/openzwave/config/popp/004407.xml
+/usr/share/defaults/openzwave/config/popp/009105.xml
+/usr/share/defaults/openzwave/config/popp/009303.xml
+/usr/share/defaults/openzwave/config/popp/009402.xml
+/usr/share/defaults/openzwave/config/popp/012501.xml
+/usr/share/defaults/openzwave/config/popp/123580.xml
+/usr/share/defaults/openzwave/config/popp/123601.xml
+/usr/share/defaults/openzwave/config/popp/123658.xml
+/usr/share/defaults/openzwave/config/popp/700168.xml
+/usr/share/defaults/openzwave/config/popp/smoke-detector.xml
+/usr/share/defaults/openzwave/config/popp/solar-siren.xml
+/usr/share/defaults/openzwave/config/popp/zweather.xml
+/usr/share/defaults/openzwave/config/qees/reto-dimmer-plus.xml
+/usr/share/defaults/openzwave/config/qees/reto-plugin-switch.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHAA2.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHADx.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHBA2.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHBDx.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHCA2.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHCDx.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHDA2.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHDDx.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHIA2.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHIDxS1.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHIDxS2.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHJA2.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHJD1.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHKDx.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHLAx.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHLDx.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHNDx.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHODx.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHSDx.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHTDx.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHTDxS3.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHUD1.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHVDx.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHWD1.xml
+/usr/share/defaults/openzwave/config/qubino/ZMNHZDx.xml
+/usr/share/defaults/openzwave/config/rcs/em52-zw.xml
+/usr/share/defaults/openzwave/config/rcs/pm12-zw.xml
+/usr/share/defaults/openzwave/config/rcs/therm0005.xml
+/usr/share/defaults/openzwave/config/rcs/therm0007.xml
+/usr/share/defaults/openzwave/config/rcs/therm0009.xml
+/usr/share/defaults/openzwave/config/remotec/zfm-80.xml
+/usr/share/defaults/openzwave/config/remotec/zrc-90.xml
+/usr/share/defaults/openzwave/config/remotec/zts-110.xml
+/usr/share/defaults/openzwave/config/remotec/zts-500.xml
+/usr/share/defaults/openzwave/config/remotec/zurc.xml
+/usr/share/defaults/openzwave/config/remotec/zxt-120.xml
+/usr/share/defaults/openzwave/config/schlage/BE468.xml
+/usr/share/defaults/openzwave/config/schlage/BE469.xml
+/usr/share/defaults/openzwave/config/schlagelink/itemp.xml
+/usr/share/defaults/openzwave/config/schlagelink/minikeypad.xml
+/usr/share/defaults/openzwave/config/sensative/strips.xml
+/usr/share/defaults/openzwave/config/shenzen_neo/ls01ch.xml
+/usr/share/defaults/openzwave/config/shenzen_neo/ls02ch.xml
+/usr/share/defaults/openzwave/config/shenzen_neo/nas-ab01z.xml
+/usr/share/defaults/openzwave/config/shenzen_neo/nas-ds01z.xml
+/usr/share/defaults/openzwave/config/shenzen_neo/nas-pd01z.xml
+/usr/share/defaults/openzwave/config/shenzen_neo/nas-rc01z.xml
+/usr/share/defaults/openzwave/config/shenzen_neo/nas-wr01z.xml
+/usr/share/defaults/openzwave/config/shenzen_neo/nas-ws02z.xml
+/usr/share/defaults/openzwave/config/steinel/is140-2.xml
+/usr/share/defaults/openzwave/config/stelpro/stzw402.xml
+/usr/share/defaults/openzwave/config/swiid/swiidinter.xml
+/usr/share/defaults/openzwave/config/swiid/swiidplug.xml
+/usr/share/defaults/openzwave/config/telldus/tzdw100.xml
+/usr/share/defaults/openzwave/config/telldus/tzwp100.xml
+/usr/share/defaults/openzwave/config/thermofloor/heatit021.xml
+/usr/share/defaults/openzwave/config/trane/TZEMT400AB32MAA.xml
+/usr/share/defaults/openzwave/config/trane/TZEMT400BB32MAA.xml
+/usr/share/defaults/openzwave/config/trane/TZEMT524AA21MA.xml
+/usr/share/defaults/openzwave/config/tronika/zsc01d.xml
+/usr/share/defaults/openzwave/config/vision/zd2102.xml
+/usr/share/defaults/openzwave/config/vision/zd2105us5.xml
+/usr/share/defaults/openzwave/config/vision/zd2201.xml
+/usr/share/defaults/openzwave/config/vision/zd2301.xml
+/usr/share/defaults/openzwave/config/vision/zf5201.xml
+/usr/share/defaults/openzwave/config/vision/zg8101.xml
+/usr/share/defaults/openzwave/config/vision/zl7261.xml
+/usr/share/defaults/openzwave/config/vision/zl7431.xml
+/usr/share/defaults/openzwave/config/vision/zm1601eu.xml
+/usr/share/defaults/openzwave/config/vision/zm1601eu5.xml
+/usr/share/defaults/openzwave/config/vision/zm1602eu.xml
+/usr/share/defaults/openzwave/config/vision/zm1602eu5.xml
+/usr/share/defaults/openzwave/config/vision/zp3102.xml
+/usr/share/defaults/openzwave/config/vision/zp3111.xml
+/usr/share/defaults/openzwave/config/vision/zs5101eu.xml
+/usr/share/defaults/openzwave/config/vitrum/vitrumBS.xml
+/usr/share/defaults/openzwave/config/waynedalton/WDTC-20.xml
+/usr/share/defaults/openzwave/config/wenzhou/sm103.xml
+/usr/share/defaults/openzwave/config/wenzhou/tsp01.xml
+/usr/share/defaults/openzwave/config/wenzhou/tz55.xml
+/usr/share/defaults/openzwave/config/wenzhou/tz56.xml
+/usr/share/defaults/openzwave/config/wenzhou/tz65d.xml
+/usr/share/defaults/openzwave/config/wenzhou/tz66d.xml
+/usr/share/defaults/openzwave/config/wenzhou/tz67.xml
+/usr/share/defaults/openzwave/config/wenzhou/tz68.xml
+/usr/share/defaults/openzwave/config/wenzhou/tz69.xml
+/usr/share/defaults/openzwave/config/wenzhou/tz79.xml
+/usr/share/defaults/openzwave/config/wenzhou/tz88.xml
+/usr/share/defaults/openzwave/config/widom/UBS104.xml
+/usr/share/defaults/openzwave/config/widom/UME304C_S.xml
+/usr/share/defaults/openzwave/config/widom/WDS.xml
+/usr/share/defaults/openzwave/config/zipato/MiniKeypad.xml
+/usr/share/defaults/openzwave/config/zipato/RGBBulb.xml
+/usr/share/defaults/openzwave/config/zipato/RGBBulb2.xml
+/usr/share/defaults/openzwave/config/zipato/vszd2102.xml
+/usr/share/defaults/openzwave/config/zipato/zp3102.xml
+/usr/share/defaults/openzwave/config/zooz/zen06.xml
+/usr/share/defaults/openzwave/config/zooz/zen07.xml
+/usr/share/defaults/openzwave/config/zooz/zen15.xml
+/usr/share/defaults/openzwave/config/zooz/zen20.xml
+/usr/share/defaults/openzwave/config/zooz/zen21.xml
+/usr/share/defaults/openzwave/config/zooz/zen22.xml
+/usr/share/defaults/openzwave/config/zooz/zen22v2.xml
+/usr/share/defaults/openzwave/config/zooz/zen23.xml
+/usr/share/defaults/openzwave/config/zooz/zen24.xml
+/usr/share/defaults/openzwave/config/zooz/zse08.xml
+/usr/share/defaults/openzwave/config/zooz/zse09.xml
+/usr/share/defaults/openzwave/config/zooz/zse30.xml
+/usr/share/defaults/openzwave/config/zooz/zse33.xml
+/usr/share/defaults/openzwave/config/zooz/zse40.xml
+/usr/share/defaults/openzwave/config/zwave.me/ZME_05431.xml
+/usr/share/defaults/openzwave/config/zwave.me/ZME_05461.xml
+/usr/share/defaults/openzwave/config/zwave.me/ZME_06433.xml
+/usr/share/defaults/openzwave/config/zwave.me/ZME_06436.xml
+/usr/share/defaults/openzwave/config/zwave.me/ZME_064381.xml
+/usr/share/defaults/openzwave/config/zwave.me/ZME_064435.xml
+/usr/share/defaults/openzwave/config/zwave.me/ZME_KFOB-S.xml
+/usr/share/defaults/openzwave/config/zwave.me/ZME_RC2.xml
+/usr/share/defaults/openzwave/config/zwave.me/ZME_WALLC-S.xml
+/usr/share/defaults/openzwave/config/zwave.me/ZME_WCD2.xml
+/usr/share/defaults/openzwave/config/zwave.me/ZUno.xml
+/usr/share/defaults/openzwave/config/zwave.me/iTemp.xml
+/usr/share/defaults/openzwave/config/zwave.me/kfob.xml
+/usr/share/defaults/openzwave/config/zwave.me/popp_kfob-c.xml
+/usr/share/defaults/openzwave/config/zwave.me/zweather.xml
+/usr/share/defaults/openzwave/config/zwcfg.xsd
+/usr/share/defaults/openzwave/config/zwp/WD-100.xml
+/usr/share/defaults/openzwave/config/zwscene.xsd
+/usr/share/defaults/openzwave/cooper/RF9501.xml
+/usr/share/defaults/openzwave/cooper/RF9505-T.xml
+/usr/share/defaults/openzwave/cooper/RF9517.xml
+/usr/share/defaults/openzwave/cooper/RF9540-N.xml
+/usr/share/defaults/openzwave/cooper/RF9542-Z.xml
+/usr/share/defaults/openzwave/cooper/RFWC5.xml
+/usr/share/defaults/openzwave/danfoss/living.xml
+/usr/share/defaults/openzwave/danfoss/rsroom.xml
+/usr/share/defaults/openzwave/danfoss/z.xml
+/usr/share/defaults/openzwave/device_classes.xml
+/usr/share/defaults/openzwave/device_classes.xsd
+/usr/share/defaults/openzwave/device_configuration.xsd
+/usr/share/defaults/openzwave/devolo/connectz.xml
+/usr/share/defaults/openzwave/devolo/mt02648.xml
+/usr/share/defaults/openzwave/devolo/mt02755.xml
+/usr/share/defaults/openzwave/devolo/mt02758.xml
+/usr/share/defaults/openzwave/devolo/mt02792.xml
+/usr/share/defaults/openzwave/devolo/mt2646.xml
+/usr/share/defaults/openzwave/devolo/mt2647.xml
+/usr/share/defaults/openzwave/devolo/mt2651.xml
+/usr/share/defaults/openzwave/devolo/mt2652.xml
+/usr/share/defaults/openzwave/devolo/mt2653.xml
+/usr/share/defaults/openzwave/devolo/mt2756.xml
+/usr/share/defaults/openzwave/devolo/rs014G0159.xml
+/usr/share/defaults/openzwave/dlink/dch-z110.xml
+/usr/share/defaults/openzwave/dlink/dch-z120.xml
+/usr/share/defaults/openzwave/dlink/dch-z510.xml
+/usr/share/defaults/openzwave/dome/0002.xml
+/usr/share/defaults/openzwave/dome/0083.xml
+/usr/share/defaults/openzwave/dome/0085.xml
+/usr/share/defaults/openzwave/dome/0086.xml
+/usr/share/defaults/openzwave/dome/0087.xml
+/usr/share/defaults/openzwave/dome/0088.xml
+/usr/share/defaults/openzwave/dome/0101.xml
+/usr/share/defaults/openzwave/dome/0201.xml
+/usr/share/defaults/openzwave/domitech/zb22uk.xml
+/usr/share/defaults/openzwave/domitech/ze27eu.xml
+/usr/share/defaults/openzwave/domux/DX1CA-Z.xml
+/usr/share/defaults/openzwave/domux/DX1CG-Z.xml
+/usr/share/defaults/openzwave/domux/DX1DS-Z.xml
+/usr/share/defaults/openzwave/domux/DX1HT-Z.xml
+/usr/share/defaults/openzwave/domux/DX1MS-Z.xml
+/usr/share/defaults/openzwave/domux/DX1SA-Z.xml
+/usr/share/defaults/openzwave/domux/DX1WL-Z.xml
+/usr/share/defaults/openzwave/domux/DX2SK-Z.xml
+/usr/share/defaults/openzwave/dragontech/wd-100.xml
+/usr/share/defaults/openzwave/duwi/05458.xml
+/usr/share/defaults/openzwave/duwi/ZWES1000.xml
+/usr/share/defaults/openzwave/duwi/ZWESJ300.xml
+/usr/share/defaults/openzwave/duwi/zwfb.xml
+/usr/share/defaults/openzwave/ecolink/doorwindow.xml
+/usr/share/defaults/openzwave/ecolink/firefighter.xml
+/usr/share/defaults/openzwave/ecolink/motion.xml
+/usr/share/defaults/openzwave/ecolink/sensor.xml
+/usr/share/defaults/openzwave/electronicsolutions/dbmz.xml
+/usr/share/defaults/openzwave/enerwave/zw15rmplus.xml
+/usr/share/defaults/openzwave/enerwave/zw15s.xml
+/usr/share/defaults/openzwave/enerwave/zw20r.xml
+/usr/share/defaults/openzwave/enerwave/zw20rm.xml
+/usr/share/defaults/openzwave/enerwave/zw500d.xml
+/usr/share/defaults/openzwave/enerwave/zwn-bpc.xml
+/usr/share/defaults/openzwave/enerwave/zwn-sc7.xml
+/usr/share/defaults/openzwave/enerwave/zwnrsm1plus.xml
+/usr/share/defaults/openzwave/enerwave/zwnrsm2plus.xml
+/usr/share/defaults/openzwave/eurotronic/eur_cometz.xml
+/usr/share/defaults/openzwave/eurotronic/eur_stellaz.xml
+/usr/share/defaults/openzwave/everspring/ad146.xml
+/usr/share/defaults/openzwave/everspring/ad147.xml
+/usr/share/defaults/openzwave/everspring/an145.xml
+/usr/share/defaults/openzwave/everspring/an158.xml
+/usr/share/defaults/openzwave/everspring/an179.xml
+/usr/share/defaults/openzwave/everspring/an180.xml
+/usr/share/defaults/openzwave/everspring/an181.xml
+/usr/share/defaults/openzwave/everspring/hac01.xml
+/usr/share/defaults/openzwave/everspring/hsp02.xml
+/usr/share/defaults/openzwave/everspring/se812.xml
+/usr/share/defaults/openzwave/everspring/sf812.xml
+/usr/share/defaults/openzwave/everspring/sm103.xml
+/usr/share/defaults/openzwave/everspring/sp103.xml
+/usr/share/defaults/openzwave/everspring/sp814.xml
+/usr/share/defaults/openzwave/everspring/sp816.xml
+/usr/share/defaults/openzwave/everspring/st812.xml
+/usr/share/defaults/openzwave/everspring/st814.xml
+/usr/share/defaults/openzwave/everspring/st815.xml
+/usr/share/defaults/openzwave/everspring/tse03.xml
+/usr/share/defaults/openzwave/everspringct/hsm02.xml
+/usr/share/defaults/openzwave/evolve/lrm-as.xml
+/usr/share/defaults/openzwave/evolve/lsm-15.xml
+/usr/share/defaults/openzwave/evolve/ltm-5.xml
+/usr/share/defaults/openzwave/fakro/zwp10.xml
+/usr/share/defaults/openzwave/fakro/zwrs.xml
+/usr/share/defaults/openzwave/fakro/zws12.xml
+/usr/share/defaults/openzwave/fakro/zws230.xml
+/usr/share/defaults/openzwave/fibaro/fgbs001.xml
+/usr/share/defaults/openzwave/fibaro/fgcd001.xml
+/usr/share/defaults/openzwave/fibaro/fgd211.xml
+/usr/share/defaults/openzwave/fibaro/fgd212.xml
+/usr/share/defaults/openzwave/fibaro/fgdw2.xml
+/usr/share/defaults/openzwave/fibaro/fgfs101.xml
+/usr/share/defaults/openzwave/fibaro/fgfs101zw5.xml
+/usr/share/defaults/openzwave/fibaro/fggc001.xml
+/usr/share/defaults/openzwave/fibaro/fgk001.xml
+/usr/share/defaults/openzwave/fibaro/fgk10x.xml
+/usr/share/defaults/openzwave/fibaro/fgkf601.xml
+/usr/share/defaults/openzwave/fibaro/fgms.xml
+/usr/share/defaults/openzwave/fibaro/fgmszw5.xml
+/usr/share/defaults/openzwave/fibaro/fgpb101.xml
+/usr/share/defaults/openzwave/fibaro/fgr221.xml
+/usr/share/defaults/openzwave/fibaro/fgrgbwm441.xml
+/usr/share/defaults/openzwave/fibaro/fgrm222.xml
+/usr/share/defaults/openzwave/fibaro/fgs211.xml
+/usr/share/defaults/openzwave/fibaro/fgs212.xml
+/usr/share/defaults/openzwave/fibaro/fgs213.xml
+/usr/share/defaults/openzwave/fibaro/fgs221.xml
+/usr/share/defaults/openzwave/fibaro/fgs222.xml
+/usr/share/defaults/openzwave/fibaro/fgs223.xml
+/usr/share/defaults/openzwave/fibaro/fgsd002.xml
+/usr/share/defaults/openzwave/fibaro/fgss101.xml
+/usr/share/defaults/openzwave/fibaro/fgt001.xml
+/usr/share/defaults/openzwave/fibaro/fgwpe.xml
+/usr/share/defaults/openzwave/fibaro/fgwpfzw5.xml
+/usr/share/defaults/openzwave/firstalert/zcombo.xml
+/usr/share/defaults/openzwave/forest/fs2z5232000002.xml
+/usr/share/defaults/openzwave/fortrezz/fmi.xml
+/usr/share/defaults/openzwave/fortrezz/mimo2plus.xml
+/usr/share/defaults/openzwave/fortrezz/mimolite.xml
+/usr/share/defaults/openzwave/fortrezz/ssa2.xml
+/usr/share/defaults/openzwave/fortrezz/ssa3.xml
+/usr/share/defaults/openzwave/fortrezz/wv01.xml
+/usr/share/defaults/openzwave/fortrezz/wwa02.xml
+/usr/share/defaults/openzwave/frostdale/fdn2nxx.xml
+/usr/share/defaults/openzwave/ge/12719-plugin-switch.xml
+/usr/share/defaults/openzwave/ge/12724-dimmer.xml
+/usr/share/defaults/openzwave/ge/14282-plugin-switch.xml
+/usr/share/defaults/openzwave/ge/14288-outlet.xml
+/usr/share/defaults/openzwave/ge/14291-switch.xml
+/usr/share/defaults/openzwave/ge/14292-toggle-switch.xml
+/usr/share/defaults/openzwave/ge/14294-dimmer.xml
+/usr/share/defaults/openzwave/ge/14295-dimmer-toggle.xml
+/usr/share/defaults/openzwave/ge/26931-motion-switch.xml
+/usr/share/defaults/openzwave/ge/26933-motion-dimmer.xml
+/usr/share/defaults/openzwave/ge/dimmer.xml
+/usr/share/defaults/openzwave/ge/dimmer_module.xml
+/usr/share/defaults/openzwave/ge/hinge-pin.xml
+/usr/share/defaults/openzwave/ge/receptacle.xml
+/usr/share/defaults/openzwave/ge/relay.xml
+/usr/share/defaults/openzwave/ge/ze26i.xml
+/usr/share/defaults/openzwave/ge/zw4001-switch.xml
+/usr/share/defaults/openzwave/ge/zw6302.xml
+/usr/share/defaults/openzwave/gocontrol/GC-TBZ48L.xml
+/usr/share/defaults/openzwave/gr/gr105.xml
+/usr/share/defaults/openzwave/gr/gr105n.xml
+/usr/share/defaults/openzwave/graber/brz1.xml
+/usr/share/defaults/openzwave/graber/vcz1.xml
+/usr/share/defaults/openzwave/greenwave/powernode1.xml
+/usr/share/defaults/openzwave/greenwave/powernode6.xml
+/usr/share/defaults/openzwave/hank/hkzw-dws01.xml
+/usr/share/defaults/openzwave/hank/hkzw-fld01.xml
+/usr/share/defaults/openzwave/hank/hkzw-ms01.xml
+/usr/share/defaults/openzwave/hank/hkzw-ms02.xml
+/usr/share/defaults/openzwave/hank/hkzw-rgb01.xml
+/usr/share/defaults/openzwave/hank/hkzw-so01-smartplug.xml
+/usr/share/defaults/openzwave/hank/hkzw-so03.xml
+/usr/share/defaults/openzwave/hank/hkzw-so05-smartplug.xml
+/usr/share/defaults/openzwave/hank/scenecontroller1.xml
+/usr/share/defaults/openzwave/hank/scenecontroller4.xml
+/usr/share/defaults/openzwave/heiman/HS1CA-Z.xml
+/usr/share/defaults/openzwave/heiman/HS1CG-Z.xml
+/usr/share/defaults/openzwave/heiman/HS1DS-Z.xml
+/usr/share/defaults/openzwave/heiman/HS1HT-Z.xml
+/usr/share/defaults/openzwave/heiman/HS1MS-Z.xml
+/usr/share/defaults/openzwave/heiman/HS1SA-Z.xml
+/usr/share/defaults/openzwave/heiman/HS1WL-Z.xml
+/usr/share/defaults/openzwave/heiman/HS2SK-Z.xml
+/usr/share/defaults/openzwave/homeseer/ezmotionplus.xml
+/usr/share/defaults/openzwave/homeseer/hs-ms100plus.xml
+/usr/share/defaults/openzwave/homeseer/hs-wd100plus.xml
+/usr/share/defaults/openzwave/homeseer/hs-wd200plus.xml
+/usr/share/defaults/openzwave/homeseer/hs-ws100plus.xml
+/usr/share/defaults/openzwave/homeseer/hs-ws200plus.xml
+/usr/share/defaults/openzwave/homeseer/hsm100.xml
+/usr/share/defaults/openzwave/homeseer/hsm200.xml
+/usr/share/defaults/openzwave/homeseer/ztroller.xml
+/usr/share/defaults/openzwave/honeywell/lynx-touch-l5100.xml
+/usr/share/defaults/openzwave/honeywell/th8320zw1000.xml
+/usr/share/defaults/openzwave/horstmann/asrzw.xml
+/usr/share/defaults/openzwave/horstmann/hrt4zw.xml
+/usr/share/defaults/openzwave/horstmann/scsc17.xml
+/usr/share/defaults/openzwave/horstmann/ses302.xml
+/usr/share/defaults/openzwave/horstmann/ses303.xml
+/usr/share/defaults/openzwave/horstmann/sir321.xml
+/usr/share/defaults/openzwave/horstmann/srt321.xml
+/usr/share/defaults/openzwave/horstmann/srt323.xml
+/usr/share/defaults/openzwave/horstmann/ssr302.xml
+/usr/share/defaults/openzwave/idlock/idlock101.xml
+/usr/share/defaults/openzwave/ingersoll/dwzwave1.xml
+/usr/share/defaults/openzwave/inovelli/nzw30.xml
+/usr/share/defaults/openzwave/inovelli/nzw31.xml
+/usr/share/defaults/openzwave/inovelli/nzw97.xml
+/usr/share/defaults/openzwave/inovelli/simple_module.xml
+/usr/share/defaults/openzwave/intermatic/ca8900.xml
+/usr/share/defaults/openzwave/iris/rangeextender.xml
+/usr/share/defaults/openzwave/kaipule/im20.xml
+/usr/share/defaults/openzwave/kaipule/ix32.xml
+/usr/share/defaults/openzwave/kwikset/smartcode.xml
+/usr/share/defaults/openzwave/leviton/dz15s.xml
+/usr/share/defaults/openzwave/leviton/dz6hd.xml
+/usr/share/defaults/openzwave/leviton/dzpd3.xml
+/usr/share/defaults/openzwave/leviton/rzi10.xml
+/usr/share/defaults/openzwave/leviton/vrcpg.xml
+/usr/share/defaults/openzwave/leviton/vrf01.xml
+/usr/share/defaults/openzwave/leviton/vri06.xml
+/usr/share/defaults/openzwave/leviton/vri10.xml
+/usr/share/defaults/openzwave/linear/GC-TBZ48.xml
+/usr/share/defaults/openzwave/linear/LB60Z-1.xml
+/usr/share/defaults/openzwave/linear/PD300Z-2.xml
+/usr/share/defaults/openzwave/linear/WA00Z-1.xml
+/usr/share/defaults/openzwave/linear/WA105DBZ-1.xml
+/usr/share/defaults/openzwave/linear/WADWAZ-1.xml
+/usr/share/defaults/openzwave/linear/WAPIRZ-1.xml
+/usr/share/defaults/openzwave/linear/WD500Z-1.xml
+/usr/share/defaults/openzwave/linear/WD500Z5-1.xml
+/usr/share/defaults/openzwave/linear/WS15Z-1.xml
+/usr/share/defaults/openzwave/linear/WT00Z-1.xml
+/usr/share/defaults/openzwave/logicsoft/ZHC5002.xml
+/usr/share/defaults/openzwave/logicsoft/ZHC5010.xml
+/usr/share/defaults/openzwave/manufacturer_specific.xml
+/usr/share/defaults/openzwave/manufacturer_specific.xsd
+/usr/share/defaults/openzwave/mcohome/mh8fceu.xml
+/usr/share/defaults/openzwave/mcohome/mh9co2.xml
+/usr/share/defaults/openzwave/mcohome/mhp210.xml
+/usr/share/defaults/openzwave/mcohome/mhs311.xml
+/usr/share/defaults/openzwave/mcohome/mhs312.xml
+/usr/share/defaults/openzwave/mcohome/mhs314.xml
+/usr/share/defaults/openzwave/mcohome/mhs411.xml
+/usr/share/defaults/openzwave/mcohome/mhs412.xml
+/usr/share/defaults/openzwave/mcohome/mhs513.xml
+/usr/share/defaults/openzwave/merten/507801.xml
+/usr/share/defaults/openzwave/merten/50x5xx.xml
+/usr/share/defaults/openzwave/nexia/db100z.xml
+/usr/share/defaults/openzwave/nodon/asp3100SmartPlug.xml
+/usr/share/defaults/openzwave/nodon/crc3100OctanRemote.xml
+/usr/share/defaults/openzwave/nodon/crc360xSofremote.xml
+/usr/share/defaults/openzwave/nodon/cws3101wallswitch.xml
+/usr/share/defaults/openzwave/nodon/msp31xxMicroSmartPlug.xml
+/usr/share/defaults/openzwave/northq/nq9021.xml
+/usr/share/defaults/openzwave/northq/nq9121.xml
+/usr/share/defaults/openzwave/northq/nq92021.xml
+/usr/share/defaults/openzwave/oomi/ft100.xml
+/usr/share/defaults/openzwave/oomi/ft111.xml
+/usr/share/defaults/openzwave/options.xml
+/usr/share/defaults/openzwave/options.xsd
+/usr/share/defaults/openzwave/philio/pan03.xml
+/usr/share/defaults/openzwave/philio/pan04.xml
+/usr/share/defaults/openzwave/philio/pan06.xml
+/usr/share/defaults/openzwave/philio/pan07.xml
+/usr/share/defaults/openzwave/philio/pan08.xml
+/usr/share/defaults/openzwave/philio/pan11.xml
+/usr/share/defaults/openzwave/philio/pan16.xml
+/usr/share/defaults/openzwave/philio/phpab01.xml
+/usr/share/defaults/openzwave/philio/phpat02.xml
+/usr/share/defaults/openzwave/philio/phpsg01.xml
+/usr/share/defaults/openzwave/philio/pse02.xml
+/usr/share/defaults/openzwave/philio/psm02.xml
+/usr/share/defaults/openzwave/philio/psp05.xml
+/usr/share/defaults/openzwave/philio/psr04.xml
+/usr/share/defaults/openzwave/philio/pst02-1c.xml
+/usr/share/defaults/openzwave/philio/pst02-b.xml
+/usr/share/defaults/openzwave/philio/pst02.xml
+/usr/share/defaults/openzwave/polycontrol/doorlock.xml
+/usr/share/defaults/openzwave/polycontrol/doorlockv3.xml
+/usr/share/defaults/openzwave/polycontrol/keypad.xml
+/usr/share/defaults/openzwave/polycontrol/polylock.xml
+/usr/share/defaults/openzwave/popp/004407.xml
+/usr/share/defaults/openzwave/popp/009105.xml
+/usr/share/defaults/openzwave/popp/009303.xml
+/usr/share/defaults/openzwave/popp/009402.xml
+/usr/share/defaults/openzwave/popp/012501.xml
+/usr/share/defaults/openzwave/popp/123580.xml
+/usr/share/defaults/openzwave/popp/123601.xml
+/usr/share/defaults/openzwave/popp/123658.xml
+/usr/share/defaults/openzwave/popp/700045.xml
+/usr/share/defaults/openzwave/popp/700168.xml
+/usr/share/defaults/openzwave/popp/smoke-detector.xml
+/usr/share/defaults/openzwave/popp/solar-siren.xml
+/usr/share/defaults/openzwave/popp/zweather.xml
+/usr/share/defaults/openzwave/pyozw_config.version
+/usr/share/defaults/openzwave/qees/reto-dimmer-plus.xml
+/usr/share/defaults/openzwave/qees/reto-plugin-switch.xml
+/usr/share/defaults/openzwave/qubino/ZMNHAA2.xml
+/usr/share/defaults/openzwave/qubino/ZMNHADx.xml
+/usr/share/defaults/openzwave/qubino/ZMNHBA2.xml
+/usr/share/defaults/openzwave/qubino/ZMNHBDx.xml
+/usr/share/defaults/openzwave/qubino/ZMNHCA2.xml
+/usr/share/defaults/openzwave/qubino/ZMNHCDx.xml
+/usr/share/defaults/openzwave/qubino/ZMNHDA2.xml
+/usr/share/defaults/openzwave/qubino/ZMNHDDx.xml
+/usr/share/defaults/openzwave/qubino/ZMNHIA2.xml
+/usr/share/defaults/openzwave/qubino/ZMNHIDxS1.xml
+/usr/share/defaults/openzwave/qubino/ZMNHIDxS2.xml
+/usr/share/defaults/openzwave/qubino/ZMNHJA2.xml
+/usr/share/defaults/openzwave/qubino/ZMNHJD1.xml
+/usr/share/defaults/openzwave/qubino/ZMNHKDx.xml
+/usr/share/defaults/openzwave/qubino/ZMNHLAx.xml
+/usr/share/defaults/openzwave/qubino/ZMNHLDx.xml
+/usr/share/defaults/openzwave/qubino/ZMNHNDx.xml
+/usr/share/defaults/openzwave/qubino/ZMNHODx.xml
+/usr/share/defaults/openzwave/qubino/ZMNHSDx.xml
+/usr/share/defaults/openzwave/qubino/ZMNHTDx.xml
+/usr/share/defaults/openzwave/qubino/ZMNHTDxS3.xml
+/usr/share/defaults/openzwave/qubino/ZMNHUD1.xml
+/usr/share/defaults/openzwave/qubino/ZMNHVDx.xml
+/usr/share/defaults/openzwave/qubino/ZMNHWD1.xml
+/usr/share/defaults/openzwave/qubino/ZMNHXDx.xml
+/usr/share/defaults/openzwave/qubino/ZMNHZDx.xml
+/usr/share/defaults/openzwave/rcs/em52-zw.xml
+/usr/share/defaults/openzwave/rcs/pm12-zw.xml
+/usr/share/defaults/openzwave/rcs/therm0005.xml
+/usr/share/defaults/openzwave/rcs/therm0007.xml
+/usr/share/defaults/openzwave/rcs/therm0009.xml
+/usr/share/defaults/openzwave/remotec/zfm-80.xml
+/usr/share/defaults/openzwave/remotec/zrc-90.xml
+/usr/share/defaults/openzwave/remotec/zts-110.xml
+/usr/share/defaults/openzwave/remotec/zts-500.xml
+/usr/share/defaults/openzwave/remotec/zurc.xml
+/usr/share/defaults/openzwave/remotec/zxt-120.xml
+/usr/share/defaults/openzwave/schlage/BE468.xml
+/usr/share/defaults/openzwave/schlage/BE469.xml
+/usr/share/defaults/openzwave/schlagelink/itemp.xml
+/usr/share/defaults/openzwave/schlagelink/minikeypad.xml
+/usr/share/defaults/openzwave/sensative/strips.xml
+/usr/share/defaults/openzwave/sensative/stripscomfort.xml
+/usr/share/defaults/openzwave/shenzen_neo/ls01ch.xml
+/usr/share/defaults/openzwave/shenzen_neo/ls02ch.xml
+/usr/share/defaults/openzwave/shenzen_neo/nas-ab01z.xml
+/usr/share/defaults/openzwave/shenzen_neo/nas-ds01z.xml
+/usr/share/defaults/openzwave/shenzen_neo/nas-pd01z.xml
+/usr/share/defaults/openzwave/shenzen_neo/nas-rc01z.xml
+/usr/share/defaults/openzwave/shenzen_neo/nas-wr01z.xml
+/usr/share/defaults/openzwave/shenzen_neo/nas-ws02z.xml
+/usr/share/defaults/openzwave/steinel/is140-2.xml
+/usr/share/defaults/openzwave/steinel/rs-led-d2.xml
+/usr/share/defaults/openzwave/steinel/xled-home-2.xml
+/usr/share/defaults/openzwave/stelpro/stzw402.xml
+/usr/share/defaults/openzwave/swiid/swiidinter.xml
+/usr/share/defaults/openzwave/swiid/swiidplug.xml
+/usr/share/defaults/openzwave/telldus/tzdw100.xml
+/usr/share/defaults/openzwave/telldus/tzwp100.xml
+/usr/share/defaults/openzwave/telldus/tzwp102.xml
+/usr/share/defaults/openzwave/thermofloor/heatit021.xml
+/usr/share/defaults/openzwave/thermofloor/heatit033.xml
+/usr/share/defaults/openzwave/trane/TZEMT400AB32MAA.xml
+/usr/share/defaults/openzwave/trane/TZEMT400BB32MAA.xml
+/usr/share/defaults/openzwave/trane/TZEMT524AA21MA.xml
+/usr/share/defaults/openzwave/tronika/zsc01d.xml
+/usr/share/defaults/openzwave/vision/zd2102.xml
+/usr/share/defaults/openzwave/vision/zd2105us5.xml
+/usr/share/defaults/openzwave/vision/zd2201.xml
+/usr/share/defaults/openzwave/vision/zd2301.xml
+/usr/share/defaults/openzwave/vision/zf5201.xml
+/usr/share/defaults/openzwave/vision/zg8101.xml
+/usr/share/defaults/openzwave/vision/zl7261.xml
+/usr/share/defaults/openzwave/vision/zl7431.xml
+/usr/share/defaults/openzwave/vision/zm1601eu.xml
+/usr/share/defaults/openzwave/vision/zm1601eu5.xml
+/usr/share/defaults/openzwave/vision/zm1602eu.xml
+/usr/share/defaults/openzwave/vision/zm1602eu5.xml
+/usr/share/defaults/openzwave/vision/zp3102.xml
+/usr/share/defaults/openzwave/vision/zp3111.xml
+/usr/share/defaults/openzwave/vision/zs5101eu.xml
+/usr/share/defaults/openzwave/vitrum/vitrumBS.xml
+/usr/share/defaults/openzwave/waynedalton/WDTC-20.xml
+/usr/share/defaults/openzwave/wenzhou/sm103.xml
+/usr/share/defaults/openzwave/wenzhou/tsp01.xml
+/usr/share/defaults/openzwave/wenzhou/tz55.xml
+/usr/share/defaults/openzwave/wenzhou/tz56.xml
+/usr/share/defaults/openzwave/wenzhou/tz65d.xml
+/usr/share/defaults/openzwave/wenzhou/tz66d.xml
+/usr/share/defaults/openzwave/wenzhou/tz67.xml
+/usr/share/defaults/openzwave/wenzhou/tz68.xml
+/usr/share/defaults/openzwave/wenzhou/tz69.xml
+/usr/share/defaults/openzwave/wenzhou/tz74.xml
+/usr/share/defaults/openzwave/wenzhou/tz79.xml
+/usr/share/defaults/openzwave/wenzhou/tz88.xml
+/usr/share/defaults/openzwave/widom/UBS104.xml
+/usr/share/defaults/openzwave/widom/UME304C_S.xml
+/usr/share/defaults/openzwave/widom/WDS.xml
+/usr/share/defaults/openzwave/zipato/MiniKeypad.xml
+/usr/share/defaults/openzwave/zipato/RGBBulb.xml
+/usr/share/defaults/openzwave/zipato/RGBBulb2.xml
+/usr/share/defaults/openzwave/zipato/pan04.xml
+/usr/share/defaults/openzwave/zipato/vszd2102.xml
+/usr/share/defaults/openzwave/zipato/zp3102.xml
+/usr/share/defaults/openzwave/zooz/zen06.xml
+/usr/share/defaults/openzwave/zooz/zen07.xml
+/usr/share/defaults/openzwave/zooz/zen15.xml
+/usr/share/defaults/openzwave/zooz/zen20.xml
+/usr/share/defaults/openzwave/zooz/zen21.xml
+/usr/share/defaults/openzwave/zooz/zen22.xml
+/usr/share/defaults/openzwave/zooz/zen22v2.xml
+/usr/share/defaults/openzwave/zooz/zen23.xml
+/usr/share/defaults/openzwave/zooz/zen24.xml
+/usr/share/defaults/openzwave/zooz/zse08.xml
+/usr/share/defaults/openzwave/zooz/zse09.xml
+/usr/share/defaults/openzwave/zooz/zse30.xml
+/usr/share/defaults/openzwave/zooz/zse33.xml
+/usr/share/defaults/openzwave/zooz/zse40.xml
+/usr/share/defaults/openzwave/zwave.me/ZME_05431.xml
+/usr/share/defaults/openzwave/zwave.me/ZME_05461.xml
+/usr/share/defaults/openzwave/zwave.me/ZME_06433.xml
+/usr/share/defaults/openzwave/zwave.me/ZME_06436.xml
+/usr/share/defaults/openzwave/zwave.me/ZME_064381.xml
+/usr/share/defaults/openzwave/zwave.me/ZME_064435.xml
+/usr/share/defaults/openzwave/zwave.me/ZME_KFOB-S.xml
+/usr/share/defaults/openzwave/zwave.me/ZME_RC2.xml
+/usr/share/defaults/openzwave/zwave.me/ZME_WALLC-S.xml
+/usr/share/defaults/openzwave/zwave.me/ZME_WCD2.xml
+/usr/share/defaults/openzwave/zwave.me/ZUno.xml
+/usr/share/defaults/openzwave/zwave.me/iTemp.xml
+/usr/share/defaults/openzwave/zwave.me/kfob.xml
+/usr/share/defaults/openzwave/zwave.me/popp_kfob-c.xml
+/usr/share/defaults/openzwave/zwave.me/zweather.xml
+/usr/share/defaults/openzwave/zwcfg.xsd
+/usr/share/defaults/openzwave/zwp/WD-100.xml
+/usr/share/defaults/openzwave/zwscene.xsd
+/usr/share/package-licenses/libopenzwave/debian_copyright
 
 %files dev
 %defattr(-,root,root,-)
@@ -1266,7 +1269,6 @@ cp license/license.txt %{buildroot}/usr/share/doc/libopenzwave/license_license.t
 
 %files doc
 %defattr(0644,root,root,0755)
-%doc /usr/share/doc/libopenzwave/*
 /usr/share/doc/openzwave-1.4.0/*
 
 %files lib
@@ -1274,10 +1276,10 @@ cp license/license.txt %{buildroot}/usr/share/doc/libopenzwave/license_license.t
 /usr/lib64/libopenzwave.so.1.4
 
 %files license
-%defattr(-,root,root,-)
-/usr/share/doc/libopenzwave/cpp_hidapi_LICENSE-bsd.txt
-/usr/share/doc/libopenzwave/cpp_hidapi_LICENSE-gpl3.txt
-/usr/share/doc/libopenzwave/cpp_hidapi_LICENSE-orig.txt
-/usr/share/doc/libopenzwave/cpp_hidapi_LICENSE.txt
-/usr/share/doc/libopenzwave/license_gpl.txt
-/usr/share/doc/libopenzwave/license_license.txt
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/libopenzwave/cpp_hidapi_LICENSE-bsd.txt
+/usr/share/package-licenses/libopenzwave/cpp_hidapi_LICENSE-gpl3.txt
+/usr/share/package-licenses/libopenzwave/cpp_hidapi_LICENSE-orig.txt
+/usr/share/package-licenses/libopenzwave/cpp_hidapi_LICENSE.txt
+/usr/share/package-licenses/libopenzwave/license_gpl.txt
+/usr/share/package-licenses/libopenzwave/license_license.txt
