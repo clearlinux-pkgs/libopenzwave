@@ -4,7 +4,7 @@
 #
 Name     : libopenzwave
 Version  : 0.4.11
-Release  : 4
+Release  : 5
 URL      : https://raw.githubusercontent.com/OpenZWave/python-openzwave/master/archives/open-zwave-master-0.4.11.zip
 Source0  : https://raw.githubusercontent.com/OpenZWave/python-openzwave/master/archives/open-zwave-master-0.4.11.zip
 Summary  : Library to access Z-Wave interfaces
