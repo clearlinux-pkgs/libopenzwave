@@ -1,14 +1,17 @@
---- open-zwave-master/cpp/build/Makefile~	2018-07-31 12:24:49.000000000 +0000
-+++ open-zwave-master/cpp/build/Makefile	2018-08-17 19:27:14.837159261 +0000
-@@ -13,9 +13,9 @@
+diff --git a/cpp/build/Makefile b/cpp/build/Makefile
+index 7b3a3f177f1e..141e441b47f8 100644
+--- a/cpp/build/Makefile
++++ b/cpp/build/Makefile
+@@ -13,10 +13,10 @@
  
  
  # what flags we will use for compiling in debug mode
--DEBUG_CFLAGS    := -Wall -Wno-unknown-pragmas -Wno-inline -Wno-format -Werror -Wno-error=sequence-point -Wno-sequence-point -ggdb -DDEBUG -fPIC  -DSYSCONFDIR="\"$(PREFIX)/etc/openzwave/\""
-+DEBUG_CFLAGS    := -Wall -Wno-unknown-pragmas -Wno-inline -Wformat -Wno-error=sequence-point -Wno-sequence-point -ggdb -DDEBUG -fPIC  -DSYSCONFDIR="\"$(PREFIX)/etc/openzwave/\""
+-DEBUG_CFLAGS    := -Wall -Wno-unknown-pragmas -Wno-inline -Wno-format -Werror -Wno-error=sequence-point -Wno-sequence-point -ggdb -DDEBUG -fPIC  -DSYSCONFDIR="\"$(PREFIX)/etc/openzwave/\"" -DOPENZWAVE_ENABLE_EXCEPTIONS=1
++DEBUG_CFLAGS    := -Wall -Wno-unknown-pragmas -Wno-inline -Wformat -Wno-error=sequence-point -Wno-sequence-point -ggdb -DDEBUG -fPIC  -DSYSCONFDIR="\"$(PREFIX)/etc/openzwave/\"" -DOPENZWAVE_ENABLE_EXCEPTIONS=1
+ DEBUG_CPPFLAGS  := -std=c++11 
  # what flags we will use for compiling in release mode
--RELEASE_CFLAGS  := -Wall -Wno-unknown-pragmas -Werror -Wno-format -Wno-error=sequence-point -Wno-sequence-point -O3 -DNDEBUG -fPIC  -DSYSCONFDIR="\"$(PREFIX)/etc/openzwave/\""
-+RELEASE_CFLAGS  := -Wall -Wno-unknown-pragmas -Wformat -Wno-error=sequence-point -Wno-sequence-point -O3 -DNDEBUG -fPIC  -DSYSCONFDIR="\"$(PREFIX)/etc/openzwave/\""
+-RELEASE_CFLAGS  := -Wall -Wno-unknown-pragmas -Werror -Wno-format -Wno-error=sequence-point -Wno-sequence-point -O3 -DNDEBUG -fPIC  -DSYSCONFDIR="\"$(PREFIX)/etc/openzwave/\"" -DOPENZWAVE_ENABLE_EXCEPTIONS=1
++RELEASE_CFLAGS  := -Wall -Wno-unknown-pragmas -Wformat -Wno-error=sequence-point -Wno-sequence-point -O3 -DNDEBUG -fPIC  -DSYSCONFDIR="\"$(PREFIX)/etc/openzwave/\"" -DOPENZWAVE_ENABLE_EXCEPTIONS=1
+ RELEASE_CPPFLAGS := -std=c++11
  #what flags we will use for linking in debug mode
  DEBUG_LDFLAGS	:= -g
- 
