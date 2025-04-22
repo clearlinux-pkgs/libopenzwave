@@ -4,7 +4,7 @@
 #
 Name     : libopenzwave
 Version  : 1.6
-Release  : 6
+Release  : 7
 URL      : https://github.com/OpenZWave/open-zwave/archive/v1.6/open-zwave-1.6.tar.gz
 Source0  : https://github.com/OpenZWave/open-zwave/archive/v1.6/open-zwave-1.6.tar.gz
 Summary  : Library to access Z-Wave interfaces
